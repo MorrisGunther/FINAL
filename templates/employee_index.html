@@ -1,10 +1,209 @@
 {% extends "employee_layout.html" %}
 
 {% block title %}
-    Log In
+    Employee index page
 {% endblock %}
 
 {% block main %}
-    Employee index page
-    <!-- TODO -->
+
+     <!-- http://getbootstrap.com/docs/4.1/content/typography/ -->
+    <h1 class="mb-3">Form</h1>
+
+    <!-- http://getbootstrap.com/docs/4.1/components/forms/ -->
+    <form action="/form" method="post">
+        <p>1 My tasks motivate me and I get excited about my work.</p>
+        <div class="form-group">
+            <select class="question" name="Q1">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>2 I always know what may task is and can get straight to work.</p>
+        <div class="form-group">
+            <select class="question" name="Q2">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>3 My work varies in the amount of concentration and thinking required.</p>
+        <div class="form-group">
+            <select class="question" name="Q3">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>4 Sometimes I am bored in my job.</p>
+        <div class="form-group">
+            <select class="question" name="Q4">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>5 I often do the same work over and over again.</p>
+        <div class="form-group">
+            <select class="question" name="Q5">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>6 I can flexibly decide when to do wich task.</p>
+        <div class="form-group">
+            <select class="question" name="Q6">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+         <p>7 I have a typical daily rountine at work.</p>
+        <div class="form-group">
+            <select class="question" name="Q7">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+         <p>8 My manager tells me what to do and I don't suggest tasks.</p>
+        <div class="form-group">
+            <select class="question" name="Q8">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+         <p>9 My manager encourages me to come up with different ideas.</p>
+        <div class="form-group">
+            <select class="question" name="Q9">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+         <p>10 I do my work well because I want to.</p>
+        <div class="form-group">
+            <select class="question" name="Q10">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+         <p>11 I always try not to dissapoint my manager.</p>
+        <div class="form-group">
+            <select class="question" name="Q11">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+         <p>12 I feel challenged by my work.</p>
+        <div class="form-group">
+            <select class="question" name="Q12">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>13 I get along with my manager on a professional level.</p>
+        <div class="form-group">
+            <select class="question" name="Q13">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>13 I get along with my manager on a professional level.</p>
+        <div class="form-group">
+            <select class="question" name="Q13">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>14 I get along with my manager on a personal level.</p>
+        <div class="form-group">
+            <select class="question" name="Q14">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>14 I get along with my manager on a personal level.</p>
+        <div class="form-group">
+            <select class="question" name="Q14">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>15 My manager takes advice from me and other team members.</p>
+        <div class="form-group">
+            <select class="question" name="Q15">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+
+        <!--Submit button-->
+        <!-- http://getbootstrap.com/docs/4.1/components/buttons/ -->
+        <button class="btn btn-primary" type="Submit">Submit</button>
+
+    </form>
+
+
 {% endblock %}
