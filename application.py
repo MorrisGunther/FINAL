@@ -7,7 +7,7 @@ from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from helpers import apology, login_required
+from helpers import manager_apology, employee_apology, login_required
 
 # Configure application
 app = Flask(__name__)
@@ -42,20 +42,20 @@ def register():
 
         # Apologises with the message "Missing username" if the new user (manager) did not provide a username
         if not request.form.get("username"):
-            return apology("Missing username")
+            return manager_apology("Missing username")
 
         # Apologises with the message "Missing email address" if the new user (manager) did not provide a email address
         if not request.form.get("email"):
-            return apology("Missing email address")
+            return manager_apology("Missing email address")
 
         # Apologises with the message "Missing password" if the new user (manager) did not provide a password in the first password field
         if not request.form.get("password"):
-            return apology("Missing password")
+            return manager_apology("Missing password")
 
         # Apologises with the message "Passwords don't match" if the new user (manager) did not provide a password in the confirmation field or the passwords in
         # The password field and in the confirmation field do not match
         if not request.form.get("confirmation") or request.form.get("password") != request.form.get("confirmation"):
-            return apology("Passwords don't match")
+            return manager_apology("Passwords don't match")
 
         # Hashes the password provided by the user (manager)
         hashed_password = generate_password_hash(request.form.get("password"))
@@ -68,7 +68,7 @@ def register():
 
         # Apologises with the message "Username is not available" if the provided username does already exist in the table "users"
         if not result:
-            return apology("Username is not available")
+            return manager_apology("Username is not available")
 
         # Logs the new user (manager) in by storing his/her id number in sessions
         id_ = db.execute("SELECT id FROM users WHERE username = :username", username=request.form.get("username"))
@@ -109,11 +109,11 @@ def login():
 
         # Ensure username was submitted
         if not request.form.get("username"):
-            return apology("must provide username", 403)
+            return manager_apology("must provide username", 403)
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return apology("must provide password", 403)
+            return manager_apology("must provide password", 403)
 
         # Query database for username
         rows = db.execute("SELECT * FROM users WHERE username = :username",
@@ -121,7 +121,7 @@ def login():
 
         # Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
-            return apology("invalid username and/or password", 403)
+            return manager_apology("invalid username and/or password", 403)
 
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
@@ -215,7 +215,7 @@ def errorhandler(e):
     """Handle error"""
     if not isinstance(e, HTTPException):
         e = InternalServerError()
-    return apology(e.name, e.code)
+    return manager_apology(e.name, e.code)
 
 
 # Listen for errors
