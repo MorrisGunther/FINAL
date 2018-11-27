@@ -1,4 +1,4 @@
-sdgxxxccaaaasssfff
+sdgxxxccaaaasssff
 import os
 
 from cs50 import SQL
