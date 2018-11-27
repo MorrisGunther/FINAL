@@ -44,6 +44,10 @@ def register():
         if not request.form.get("username"):
             return apology("Missing username")
 
+        # Apologises with the message "Missing email address" if the new user (manager) did not provide a email address
+        if not request.form.get("email"):
+            return apology("Missing email address")
+
         # Apologises with the message "Missing password" if the new user (manager) did not provide a password in the first password field
         if not request.form.get("password"):
             return apology("Missing password")
@@ -56,10 +60,11 @@ def register():
         # Hashes the password provided by the user (manager)
         hashed_password = generate_password_hash(request.form.get("password"))
 
-        # Inserts the new user (manager) (i.e. username, hashed password and type of user) to the table "user" of the database (the below function will
-        # Return "none" if the provided username does already exist in the table "users", since the field "username" is a unique field in the table)
-        result = db.execute("INSERT INTO users (username, hash, manager_or_employee) VALUES (:username, :hashed_password, 'manager')",
-                            username=request.form.get("username"), hashed_password=hashed_password)
+        # Inserts the new user (manager) (i.e. username, email address, hashed password, type of user) to the table "user" of the database
+        # (the below function will return "none" if the provided username does already exist in the table "users", since the field "username"
+        # Is a unique field in the table)
+        result = db.execute("INSERT INTO users (username, email_address, hash, manager_or_employee) VALUES (:username, :email_address, :hashed_password, 'manager')",
+                            username=request.form.get("username"), email_address=request.form.get("email"), hashed_password=hashed_password)
 
         # Apologises with the message "Username is not available" if the provided username does already exist in the table "users"
         if not result:
@@ -70,7 +75,7 @@ def register():
         session["user_id"] = id_[0]["id"]
 
         # Redirects the new user (manager) to the homepage for managers
-        return redirect("/manager_index")
+        return redirect("/")
 
     # If the request method is GET, this renders the template "register.html" via which a person can register for the site
     else:
@@ -123,7 +128,7 @@ def login():
 
         # If user is manager, redirect user to the homepage for managers
         if rows[0]["manager_or_employee"] == "manager":
-            return redirect("/manager_index")
+            return redirect("/")
 
         # If user is employee, redirect user to the homepage for employees
         if rows[0]["manager_or_employee"] == "employee":
@@ -144,7 +149,7 @@ def logout():
     return redirect("/login")
 
 
-@app.route("/manager_index")
+@app.route("/")
 @login_required
 def manager_index():
 
