@@ -1,4 +1,8 @@
 import os
+import smtplib
+
+from email.MIMEMultipart import MIMEMultipart
+from email.MIMEText import MIMEText
 
 from cs50 import SQL
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
@@ -162,8 +166,16 @@ def manager_request_feedback():
 
     # If the request method is POST, do the below
     if request.method == "POST":
-        print("hello")
-        # TODO MORRIS
+        #usign https://www.pythonforbeginners.com/code-snippets-source-code/using-python-to-send-email
+
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+
+        #Next, log in to the server
+        server.login("youremailusername", "password")
+
+        #Send the mail
+        msg = "/nHere are your login credentials" # The /n separates the message from the headers
+        server.sendmail("you@gmail.com", "target@example.com", msg)
 
     # If the request method is GET, this renders the template "manager_request_feedback.html" via which the logged-in manager can ...
     else:
@@ -219,6 +231,8 @@ def manager_self_assessment():
         Q40 = request.form.get("Q40")
         Description = request.form.get("Description")
 
+        print(Q1)
+        print(manager_id)
         # insert the survey values into the table
         selfassessment = db.execute("INSERT INTO surveyanswers(manager_id, Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q9, Q10, Q11, Q12, Q13, Q14, Q15, Q16, Q17, Q18, Q19, Q20, Q21, Q22, Q23, Q24, Q25, Q26, Q27, Q28, Q29, Q30, Q31, Q32, Q33, Q34, Q35, Q36, Q37, Q38, Q39, Q40, Description) VALUES (:manager_id, :Q1, :Q2, :Q3, :Q4, :Q5, :Q6, :Q7, :Q8, :Q9, :Q10, :Q11, :Q12, :Q13, :Q14, :Q15, :Q16, :Q17, :Q18, :Q19, :Q20, :Q21, :Q22, :Q23, :Q24, :Q25, :Q26, :Q27, :Q28, :Q29, :Q30, :Q31, :Q32, :Q33, :Q34, :Q35, :Q36, :Q37, :Q38, :Q39, :Q40, :Description)",
                                     manager_id = manager_id, Q1=Q1, Q2=Q2, Q3=Q3, Q4=Q4, Q5=Q5, Q6=Q6, Q7=Q7, Q8=Q8, Q9=Q9, Q10=Q10, Q11=Q11, Q12=Q12, Q13=Q13, Q14=Q14, Q15=Q15, Q16=Q16, Q17=Q17, Q18=Q18, Q19=Q19, Q20=Q20, Q21=Q21, Q22=Q22, Q23=Q23, Q24=Q24, Q25=Q25, Q26=Q26, Q27=Q27, Q28=Q28, Q29=Q29, Q30=Q30, Q31=Q31, Q32=Q32, Q33=Q33, Q34=Q34, Q35=Q35, Q36=Q36, Q37=Q37, Q38=Q38, Q39=Q39, Q40=Q40, Description=Description)
