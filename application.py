@@ -286,7 +286,6 @@ def employee_index():
 
     if request.method == "POST":
 
-        manager_id = request.form.get("manager_id")
         Q1 = request.form.get("Q1")
         Q2 = request.form.get("Q2")
         Q3 = request.form.get("Q3")
@@ -327,18 +326,17 @@ def employee_index():
         Q38 = request.form.get("Q38")
         Q39 = request.form.get("Q39")
         Q40 = request.form.get("Q40")
-        Description = request.form.get("Description")
 
         # insert the survey values into the table
-        selfassessment = db.execute("INSERT INTO surveyanswers(manager_id, Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q9, Q10, Q11, Q12, Q13, Q14, \
+        selfassessment = db.execute("INSERT INTO surveyanswers(Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q9, Q10, Q11, Q12, Q13, Q14, \
                                     Q15, Q16, Q17, Q18, Q19, Q20, Q21, Q22, Q23, Q24, Q25, Q26, Q27, Q28, Q29, Q30, Q31, Q32, Q33, Q34, \
-                                    Q35, Q36, Q37, Q38, Q39, Q40, Description) VALUES (:manager_id, :Q1, :Q2, :Q3, :Q4, :Q5, :Q6, :Q7, :Q8, \
+                                    Q35, Q36, Q37, Q38, Q39, Q40) VALUES (:Q1, :Q2, :Q3, :Q4, :Q5, :Q6, :Q7, :Q8, \
                                     :Q9, :Q10, :Q11, :Q12, :Q13, :Q14, :Q15, :Q16, :Q17, :Q18, :Q19, :Q20, :Q21, :Q22, :Q23, :Q24, :Q25, :Q26, \
-                                    :Q27, :Q28, :Q29, :Q30, :Q31, :Q32, :Q33, :Q34, :Q35, :Q36, :Q37, :Q38, :Q39, :Q40, :Description)",
-                                    manager_id = manager_id, Q1=Q1, Q2=Q2, Q3=Q3, Q4=Q4, Q5=Q5, Q6=Q6, Q7=Q7, Q8=Q8, Q9=Q9, Q10=Q10, Q11=Q11,
+                                    :Q27, :Q28, :Q29, :Q30, :Q31, :Q32, :Q33, :Q34, :Q35, :Q36, :Q37, :Q38, :Q39, :Q40)",
+                                    Q1=Q1, Q2=Q2, Q3=Q3, Q4=Q4, Q5=Q5, Q6=Q6, Q7=Q7, Q8=Q8, Q9=Q9, Q10=Q10, Q11=Q11,
                                     Q12=Q12, Q13=Q13, Q14=Q14, Q15=Q15, Q16=Q16, Q17=Q17, Q18=Q18, Q19=Q19, Q20=Q20, Q21=Q21, Q22=Q22, Q23=Q23,
                                     Q24=Q24, Q25=Q25, Q26=Q26, Q27=Q27, Q28=Q28, Q29=Q29, Q30=Q30, Q31=Q31, Q32=Q32, Q33=Q33, Q34=Q34, Q35=Q35,
-                                    Q36=Q36, Q37=Q37, Q38=Q38, Q39=Q39, Q40=Q40, Description=Description)
+                                    Q36=Q36, Q37=Q37, Q38=Q38, Q39=Q39, Q40=Q40)
 
         return render_template("employee_index.html")
 
