@@ -168,14 +168,36 @@ def manager_request_feedback():
     if request.method == "POST":
         #usign https://www.pythonforbeginners.com/code-snippets-source-code/using-python-to-send-email
 
-        message = "Here are your login credentials"
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.ehlo()
-        server.starttls()
-        server.login("annegegenmantel@gmail.com", os.getenv("password"))
-        server.sendmail("annegegenmantel@gmail.com", "annegegenmantel@gmail.com", message)
+        #message = "Here are your login credentials"
+        #server = smtplib.SMTP('smtp.gmail.com', 587)
+        #server.ehlo()
+        #server.starttls()
+        #server.login("annegegenmantel@gmail.com", os.getenv("password"))
+        #server.sendmail("annegegenmantel@gmail.com", "annegegenmantel@gmail.com", message)
 
-        return render_template("manager_self-assessment.html")
+        result = db.execute("INSERT INTO users (username, email_address, hash, manager_or_employee) VALUES \
+                            ('username1', :email_address1, 'hashed_passwordXXX', 'employee'), \
+                            ('username2', :email_address2, 'hashed_passwordXXX', 'employee'), \
+                            ('username3', :email_address3, 'hashed_passwordXXX', 'employee'), \
+                            ('username4', :email_address4, 'hashed_passwordXXX', 'employee'), \
+                            ('username5', :email_address5, 'hashed_passwordXXX', 'employee'), \
+                            ('username6', :email_address6, 'hashed_passwordXXX', 'employee'), \
+                            ('username7', :email_address7, 'hashed_passwordXXX', 'employee'), \
+                            ('username8', :email_address8, 'hashed_passwordXXX', 'employee'), \
+                            ('username9', :email_address9, 'hashed_passwordXXX', 'employee'), \
+                            ('username10', :email_address10, 'hashed_passwordXXX', 'employee')",
+                            email_address1=request.form.get("email1"),
+                            email_address2=request.form.get("email2"),
+                            email_address3=request.form.get("email3"),
+                            email_address4=request.form.get("email4"),
+                            email_address5=request.form.get("email5"),
+                            email_address6=request.form.get("email6"),
+                            email_address7=request.form.get("email7"),
+                            email_address8=request.form.get("email8"),
+                            email_address9=request.form.get("email9"),
+                            email_address10=request.form.get("email10"))
+
+        return redirect("/manager_request_feedback")
 
     # If the request method is GET, this renders the template "manager_request_feedback.html" via which the logged-in manager can ...
     else:
@@ -231,14 +253,17 @@ def manager_self_assessment():
         Q40 = request.form.get("Q40")
         Description = request.form.get("Description")
 
-        print(Q1)
-        print(manager_id)
         # insert the survey values into the table
-        selfassessment = db.execute("INSERT INTO surveyanswers(manager_id, Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q9, Q10, Q11, Q12, Q13, Q14, Q15, Q16, Q17, Q18, Q19, Q20, Q21, Q22, Q23, Q24, Q25, Q26, Q27, Q28, Q29, Q30, Q31, Q32, Q33, Q34, Q35, Q36, Q37, Q38, Q39, Q40, Description) VALUES (:manager_id, :Q1, :Q2, :Q3, :Q4, :Q5, :Q6, :Q7, :Q8, :Q9, :Q10, :Q11, :Q12, :Q13, :Q14, :Q15, :Q16, :Q17, :Q18, :Q19, :Q20, :Q21, :Q22, :Q23, :Q24, :Q25, :Q26, :Q27, :Q28, :Q29, :Q30, :Q31, :Q32, :Q33, :Q34, :Q35, :Q36, :Q37, :Q38, :Q39, :Q40, :Description)",
-                                    manager_id = manager_id, Q1=Q1, Q2=Q2, Q3=Q3, Q4=Q4, Q5=Q5, Q6=Q6, Q7=Q7, Q8=Q8, Q9=Q9, Q10=Q10, Q11=Q11, Q12=Q12, Q13=Q13, Q14=Q14, Q15=Q15, Q16=Q16, Q17=Q17, Q18=Q18, Q19=Q19, Q20=Q20, Q21=Q21, Q22=Q22, Q23=Q23, Q24=Q24, Q25=Q25, Q26=Q26, Q27=Q27, Q28=Q28, Q29=Q29, Q30=Q30, Q31=Q31, Q32=Q32, Q33=Q33, Q34=Q34, Q35=Q35, Q36=Q36, Q37=Q37, Q38=Q38, Q39=Q39, Q40=Q40, Description=Description)
+        selfassessment = db.execute("INSERT INTO surveyanswers(manager_id, Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q9, Q10, Q11, Q12, Q13, Q14, Q15, \
+                                    Q16, Q17, Q18, Q19, Q20, Q21, Q22, Q23, Q24, Q25, Q26, Q27, Q28, Q29, Q30, Q31, Q32, Q33, Q34, Q35, Q36, \
+                                    Q37, Q38, Q39, Q40, Description) VALUES (:manager_id, :Q1, :Q2, :Q3, :Q4, :Q5, :Q6, :Q7, :Q8, :Q9, :Q10, \
+                                    :Q11, :Q12, :Q13, :Q14, :Q15, :Q16, :Q17, :Q18, :Q19, :Q20, :Q21, :Q22, :Q23, :Q24, :Q25, :Q26, :Q27, \
+                                    :Q28, :Q29, :Q30, :Q31, :Q32, :Q33, :Q34, :Q35, :Q36, :Q37, :Q38, :Q39, :Q40, :Description)", \
+                                    manager_id = manager_id, Q1=Q1, Q2=Q2, Q3=Q3, Q4=Q4, Q5=Q5, Q6=Q6, Q7=Q7, Q8=Q8, Q9=Q9, Q10=Q10, Q11=Q11,
+                                    Q12=Q12, Q13=Q13, Q14=Q14, Q15=Q15, Q16=Q16, Q17=Q17, Q18=Q18, Q19=Q19, Q20=Q20, Q21=Q21, Q22=Q22, Q23=Q23,
+                                    Q24=Q24, Q25=Q25, Q26=Q26, Q27=Q27, Q28=Q28, Q29=Q29, Q30=Q30, Q31=Q31, Q32=Q32, Q33=Q33, Q34=Q34, Q35=Q35,
+                                    Q36=Q36, Q37=Q37, Q38=Q38, Q39=Q39, Q40=Q40, Description=Description)
 
-        if not selfassessment:
-            print("hello")
         return render_template("manager_index.html")
 
         # Dont submit twice -> maybe add SQL column with default value of 0 and adding 1 if filled out and checking that?
@@ -305,8 +330,15 @@ def employee_index():
         Description = request.form.get("Description")
 
         # insert the survey values into the table
-        selfassessment = db.execute("INSERT INTO surveyanswers(manager_id, Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q9, Q10, Q11, Q12, Q13, Q14, Q15, Q16, Q17, Q18, Q19, Q20, Q21, Q22, Q23, Q24, Q25, Q26, Q27, Q28, Q29, Q30, Q31, Q32, Q33, Q34, Q35, Q36, Q37, Q38, Q39, Q40, Description) VALUES (:manager_id, :Q1, :Q2, :Q3, :Q4, :Q5, :Q6, :Q7, :Q8, :Q9, :Q10, :Q11, :Q12, :Q13, :Q14, :Q15, :Q16, :Q17, :Q18, :Q19, :Q20, :Q21, :Q22, :Q23, :Q24, :Q25, :Q26, :Q27, :Q28, :Q29, :Q30, :Q31, :Q32, :Q33, :Q34, :Q35, :Q36, :Q37, :Q38, :Q39, :Q40, :Description)",
-                                    manager_id = manager_id, Q1=Q1, Q2=Q2, Q3=Q3, Q4=Q4, Q5=Q5, Q6=Q6, Q7=Q7, Q8=Q8, Q9=Q9, Q10=Q10, Q11=Q11, Q12=Q12, Q13=Q13, Q14=Q14, Q15=Q15, Q16=Q16, Q17=Q17, Q18=Q18, Q19=Q19, Q20=Q20, Q21=Q21, Q22=Q22, Q23=Q23, Q24=Q24, Q25=Q25, Q26=Q26, Q27=Q27, Q28=Q28, Q29=Q29, Q30=Q30, Q31=Q31, Q32=Q32, Q33=Q33, Q34=Q34, Q35=Q35, Q36=Q36, Q37=Q37, Q38=Q38, Q39=Q39, Q40=Q40, Description=Description)
+        selfassessment = db.execute("INSERT INTO surveyanswers(manager_id, Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q9, Q10, Q11, Q12, Q13, Q14, \
+                                    Q15, Q16, Q17, Q18, Q19, Q20, Q21, Q22, Q23, Q24, Q25, Q26, Q27, Q28, Q29, Q30, Q31, Q32, Q33, Q34, \
+                                    Q35, Q36, Q37, Q38, Q39, Q40, Description) VALUES (:manager_id, :Q1, :Q2, :Q3, :Q4, :Q5, :Q6, :Q7, :Q8, \
+                                    :Q9, :Q10, :Q11, :Q12, :Q13, :Q14, :Q15, :Q16, :Q17, :Q18, :Q19, :Q20, :Q21, :Q22, :Q23, :Q24, :Q25, :Q26, \
+                                    :Q27, :Q28, :Q29, :Q30, :Q31, :Q32, :Q33, :Q34, :Q35, :Q36, :Q37, :Q38, :Q39, :Q40, :Description)",
+                                    manager_id = manager_id, Q1=Q1, Q2=Q2, Q3=Q3, Q4=Q4, Q5=Q5, Q6=Q6, Q7=Q7, Q8=Q8, Q9=Q9, Q10=Q10, Q11=Q11,
+                                    Q12=Q12, Q13=Q13, Q14=Q14, Q15=Q15, Q16=Q16, Q17=Q17, Q18=Q18, Q19=Q19, Q20=Q20, Q21=Q21, Q22=Q22, Q23=Q23,
+                                    Q24=Q24, Q25=Q25, Q26=Q26, Q27=Q27, Q28=Q28, Q29=Q29, Q30=Q30, Q31=Q31, Q32=Q32, Q33=Q33, Q34=Q34, Q35=Q35,
+                                    Q36=Q36, Q37=Q37, Q38=Q38, Q39=Q39, Q40=Q40, Description=Description)
 
         return render_template("employee_index.html")
 
