@@ -1,8 +1,8 @@
 import os
 import smtplib
 
-from email.MIMEMultipart import MIMEMultipart
-from email.MIMEText import MIMEText
+# from email.MIMEMultipart import MIMEMultipart
+# from email.MIMEText import MIMEText
 
 from cs50 import SQL
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
@@ -168,23 +168,12 @@ def manager_request_feedback():
     if request.method == "POST":
         #usign https://www.pythonforbeginners.com/code-snippets-source-code/using-python-to-send-email
 
-        fromaddr = "annegegenmantel@gmail.com"
-        toaddr = "target@example.com"
-        msg = MIMEMultipart()
-        msg['From'] = fromaddr
-        msg['To'] = toaddr
-        msg['Subject'] = "Python email"
-
-        body = "Python test mail"
-        msg.attach(MIMEText(body, 'plain'))
-
+        message = "Here are your login credentials"
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.ehlo()
         server.starttls()
-        server.ehlo()
-        server.login("annegegenmantel@gmail.com", os.envget("password"))
-        text = msg.as_string()
-        server.sendmail(fromaddr, toaddr, text)
+        server.login("annegegenmantel@gmail.com", os.getenv("password"))
+        server.sendmail("annegegenmantel@gmail.com", "annegegenmantel@gmail.com", message)
 
         return render_template("manager_self-assessment.html")
 
@@ -250,12 +239,12 @@ def manager_self_assessment():
 
         if not selfassessment:
             print("hello")
-        return apology("Thank you for submitting")
+        return manager_apology("Thank you for submitting")
 
         # Dont submit twice -> maybe add SQL column with default value of 0 and adding 1 if filled out and checking that?
 
     else:
-        return render_template("manager_self-assessment.html")
+        return render_template("manager_self_assessment.html")
 
 
 @app.route("/manager_view_report")
