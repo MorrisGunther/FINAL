@@ -6,17 +6,21 @@
 
 {% block main %}
     <!-- http://getbootstrap.com/docs/4.1/content/typography/ -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.16.0/jquery.validate.min.js"></script>
+
     <h1 class="mb-3">Form</h1>
 
     <!-- http://getbootstrap.com/docs/4.1/components/forms/ -->
-    <form action="/employee_index" method="post">
+    <form action="/manager_self_assessment" method="post" class="needs-validation" id="frm" novalidate>
         <!--Input field for name of manager-->
         <div class="form-group">
             <input autocomplete="off" autofocus class="form-control" name="manager_id" placeholder="Name of manager" type="text">
         </div>
         <p>1 My tasks motivate me and I get excited about my work.</p>
         <div class="form-group">
-            <select class="question" name="Q1">
+            <select class="custom-select" name="Q1">
                 <option disabled selected value="">Select</option>
                 <option value="1">Fully disagree</option>
                 <option value="2">Partly disagree</option>
@@ -24,10 +28,13 @@
                 <option value="4">Partly agree</option>
                 <option value="5">Fully agree</option>
             </select>
+            <div class="invalid-feedback">
+              Please select an option.
+            </div>
         </div>
         <p>2 I always know what may task is and can get straight to work.</p>
         <div class="form-group">
-            <select class="question" name="Q2">
+            <select class="custom-select" name="Q2">
                 <option disabled selected value="">Select</option>
                 <option value="1">Fully disagree</option>
                 <option value="2">Partly disagree</option>
@@ -38,7 +45,7 @@
         </div>
         <p>3 My work varies in the amount of concentration and thinking required.</p>
         <div class="form-group">
-            <select class="question" name="Q3">
+            <select class="custom-select" name="Q3">
                 <option disabled selected value="">Select</option>
                 <option value="1">Fully disagree</option>
                 <option value="2">Partly disagree</option>
@@ -469,4 +476,34 @@
         <!-- http://getbootstrap.com/docs/4.1/components/buttons/ -->
         <button class="btn btn-primary" type="Submit">Submit</button>
     </form>
+    <script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    // (function() {
+    //   'use strict';
+    //   window.addEventListener('load', function() {
+    //     // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    //     var forms = document.getElementsByClassName('needs-validation');
+    //     // Loop over them and prevent submission
+    //     var validation = Array.prototype.filter.call(forms, function(form) {
+    //       form.addEventListener('submit', function(event) {
+    //         if (form.checkValidity() === false) {
+    //           event.preventDefault();
+    //           event.stopPropagation();
+    //         }
+    //         form.classList.add('was-validated');
+    //       }, false);
+    //     });
+    //   }, false);
+    // })();
+
+    $("#frm").validate({
+      rules:
+      {
+      	Q1: {
+        	required: true
+        }
+      }
+    });
+</script>
+
 {% endblock %}
