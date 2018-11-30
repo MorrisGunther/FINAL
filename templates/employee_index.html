@@ -5,12 +5,21 @@
 {% endblock %}
 
 {% block main %}
+    <!--Using to check: https://getbootstrap.com/docs/4.1/components/forms/#validation-->
 
      <!-- http://getbootstrap.com/docs/4.1/content/typography/ -->
     <h1 class="mb-3">Form</h1>
 
     <!-- http://getbootstrap.com/docs/4.1/components/forms/ -->
-    <form action="/form" method="post">
+    <form action="/form" method="post" class="needs-validation" novalidate>
+        <!--Input field for name of manager-->
+        <div class="form-group">
+            <label for="validationCustom01">Manager</label>
+            <input autocomplete="off" autofocus class="form-control" name="manager_id" placeholder="Name of manager" type="text">
+            <div class="valid-feedback">
+            Looks good!
+            </div>
+        </div>
         <p>1 My tasks motivate me and I get excited about my work.</p>
         <div class="form-group">
             <select class="question" name="Q1">
@@ -21,6 +30,7 @@
                 <option value="4">Partly agree</option>
                 <option value="5">Fully agree</option>
             </select>
+            <div class="invalid-feedback">Example invalid custom select feedback</div>
         </div>
         <p>2 I always know what may task is and can get straight to work.</p>
         <div class="form-group">
@@ -176,17 +186,6 @@
                 <option value="5">Fully agree</option>
             </select>
         </div>
-        <p>14 I get along with my manager on a personal level.</p>
-        <div class="form-group">
-            <select class="question" name="Q14">
-                <option disabled selected value="">Select</option>
-                <option value="1">Fully disagree</option>
-                <option value="2">Partly disagree</option>
-                <option value="3">Neither agree or disagree</option>
-                <option value="4">Partly agree</option>
-                <option value="5">Fully agree</option>
-            </select>
-        </div>
         <p>15 My manager takes advice from me and other team members.</p>
         <div class="form-group">
             <select class="question" name="Q15">
@@ -198,7 +197,285 @@
                 <option value="5">Fully agree</option>
             </select>
         </div>
-
+        <p>16 I sometimes can't fulfill the expectations of my manager.</p>
+        <div class="form-group">
+            <select class="question" name="Q16">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>17 I feel very controlled in my job.</p>
+        <div class="form-group">
+            <select class="question" name="Q17">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>18 I can identify with the values in the company.</p>
+        <div class="form-group">
+            <select class="question" name="Q18">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>19 I can identify witht he mission of the company.</p>
+        <div class="form-group">
+            <select class="question" name="Q19">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>20 We have a very relaxed work atmosphere in the company.</p>
+        <div class="form-group">
+            <select class="question" name="Q20">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>21 We are very professional in the company.</p>
+        <div class="form-group">
+            <select class="question" name="Q21">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>22 I like the work atmosphere in the company.</p>
+        <div class="form-group">
+            <select class="question" name="Q22">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>23 Sometimes it is difficult for me to get my ideas heard.</p>
+        <div class="form-group">
+            <select class="question" name="Q23">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>24 We have established ways of communicating ideas.</p>
+        <div class="form-group">
+            <select class="question" name="Q24">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>25 I have a lot of influence on our team results.</p>
+        <div class="form-group">
+            <select class="question" name="Q25">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>26 My team can work well together.</p>
+        <div class="form-group">
+            <select class="question" name="Q26">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>27 I get along with my team on a personal level.</p>
+        <div class="form-group">
+            <select class="question" name="Q27">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>28 I get along with my team on a professional level.</p>
+        <div class="form-group">
+            <select class="question" name="Q28">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>29 The whole team is proud of the company.</p>
+        <div class="form-group">
+            <select class="question" name="Q29">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>30 I sometimes feel like I can't contribute well to the team/task.</p>
+        <div class="form-group">
+            <select class="question" name="Q30">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>31 We have many regular team meetings.</p>
+        <div class="form-group">
+            <select class="question" name="Q31">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>32 My company is very innovative.</p>
+        <div class="form-group">
+            <select class="question" name="Q32">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>33 Our team vision is to provide the world with a new solution to a problem.</p>
+        <div class="form-group">
+            <select class="question" name="Q33">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>34 Our team vision is to provide the best solution out there.</p>
+        <div class="form-group">
+            <select class="question" name="Q34">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>35 The company has innovative work flow processes.</p>
+        <div class="form-group">
+            <select class="question" name="Q35">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>36 How much has changed in your comany in the past year?</p>
+        <div class="form-group">
+            <select class="question" name="Q36">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>37 I slower pace of change would be good for the company.</p>
+        <div class="form-group">
+            <select class="question" name="Q37">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>38 We are growing quite fast.</p>
+        <div class="form-group">
+            <select class="question" name="Q38">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>39 I am thinking of changing jobs.</p>
+        <div class="form-group">
+            <select class="question" name="Q37">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <p>40 I can imagine staying with the company for the next 5 years.</p>
+        <div class="form-group">
+            <select class="question" name="Q37">
+                <option disabled selected value="">Select</option>
+                <option value="1">Fully disagree</option>
+                <option value="2">Partly disagree</option>
+                <option value="3">Neither agree or disagree</option>
+                <option value="4">Partly agree</option>
+                <option value="5">Fully agree</option>
+            </select>
+        </div>
+        <div class="form-group">
+          <label for="comment">3 words describing your manager:</label>
+          <textarea class="form-control" rows="3" id="comment"></textarea>
+        </div>
         <!--Submit button-->
         <!-- http://getbootstrap.com/docs/4.1/components/buttons/ -->
         <button class="btn btn-primary" type="Submit">Submit</button>

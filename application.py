@@ -148,8 +148,6 @@ def logout():
 @login_required
 def manager_index():
 
-
-    # TODO ANNE
     return render_template("manager_index.html")
 
 
@@ -173,12 +171,60 @@ def manager_request_feedback():
 def manager_self_assessment():
 
     if request.method == "POST":
-        print("hello")
-        # TODO ANNE
-        # Dont submit twice
+        manager_id = request.form.get("manager_id")
+        Q1 = request.form.get("Q1")
+        Q2 = request.form.get("Q2")
+        Q3 = request.form.get("Q3")
+        Q4 = request.form.get("Q4")
+        Q5 = request.form.get("Q5")
+        Q6 = request.form.get("Q6")
+        Q7 = request.form.get("Q7")
+        Q8 = request.form.get("Q8")
+        Q9 = request.form.get("Q9")
+        Q10 = request.form.get("Q10")
+        Q11 = request.form.get("Q11")
+        Q12 = request.form.get("Q12")
+        Q13 = request.form.get("Q13")
+        Q14 = request.form.get("Q14")
+        Q15 = request.form.get("Q15")
+        Q16 = request.form.get("Q16")
+        Q17 = request.form.get("Q17")
+        Q18 = request.form.get("Q18")
+        Q19 = request.form.get("Q19")
+        Q20 = request.form.get("Q20")
+        Q21 = request.form.get("Q21")
+        Q22 = request.form.get("Q22")
+        Q23 = request.form.get("Q23")
+        Q24 = request.form.get("Q24")
+        Q25 = request.form.get("Q25")
+        Q26 = request.form.get("Q26")
+        Q27 = request.form.get("Q27")
+        Q28 = request.form.get("Q28")
+        Q29 = request.form.get("Q29")
+        Q30 = request.form.get("Q30")
+        Q31 = request.form.get("Q31")
+        Q32 = request.form.get("Q32")
+        Q33 = request.form.get("Q33")
+        Q34 = request.form.get("Q34")
+        Q35 = request.form.get("Q35")
+        Q36 = request.form.get("Q36")
+        Q37 = request.form.get("Q37")
+        Q38 = request.form.get("Q38")
+        Q39 = request.form.get("Q39")
+        Q40 = request.form.get("Q40")
+        Description = request.form.get("Description")
+
+        # insert the survey values into the table
+        selfassessment = db.execute("INSERT INTO surveyanswers(manager_id, Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q9, Q10, Q11, Q12, Q13, Q14, Q15, Q16, Q17, Q18, Q19, Q20, Q21, Q22, Q23, Q24, Q25, Q26, Q27, Q28, Q29, Q30, Q31, Q32, Q33, Q34, Q35, Q36, Q37, Q38, Q39, Q40, Description) VALUES (:manager_id, :Q1, :Q2, :Q3, :Q4, :Q5, :Q6, :Q7, :Q8, :Q9, :Q10, :Q11, :Q12, :Q13, :Q14, :Q15, :Q16, :Q17, :Q18, :Q19, :Q20, :Q21, :Q22, :Q23, :Q24, :Q25, :Q26, :Q27, :Q28, :Q29, :Q30, :Q31, :Q32, :Q33, :Q34, :Q35, :Q36, :Q37, :Q38, :Q39, :Q40, :Description)",
+                                    manager_id = manager_id, Q1=Q1, Q2=Q2, Q3=Q3, Q4=Q4, Q5=Q5, Q6=Q6, Q7=Q7, Q8=Q8, Q9=Q9, Q10=Q10, Q11=Q11, Q12=Q12, Q13=Q13, Q14=Q14, Q15=Q15, Q16=Q16, Q17=Q17, Q18=Q18, Q19=Q19, Q20=Q20, Q21=Q21, Q22=Q22, Q23=Q23, Q24=Q24, Q25=Q25, Q26=Q26, Q27=Q27, Q28=Q28, Q29=Q29, Q30=Q30, Q31=Q31, Q32=Q32, Q33=Q33, Q34=Q34, Q35=Q35, Q36=Q36, Q37=Q37, Q38=Q38, Q39=Q39, Q40=Q40, Description=Description)
+
+        if not selfassessment:
+            print("hello")
+        return apology("Thank you for submitting")
+
+        # Dont submit twice -> maybe add SQL column with default value of 0 and adding 1 if filled out and checking that?
 
     else:
-        # TODO ANNE
         return render_template("manager_self-assessment.html")
 
 
@@ -195,11 +241,65 @@ def manager_view_report():
 def employee_index():
 
     if request.method == "POST":
-        print("hello")
-        # TODO ANNE
+
+        manager_id = request.form.get("manager_id")
+        Q1 = request.form.get("Q1")
+        Q2 = request.form.get("Q2")
+        Q3 = request.form.get("Q3")
+        Q4 = request.form.get("Q4")
+        Q5 = request.form.get("Q5")
+        Q6 = request.form.get("Q6")
+        Q7 = request.form.get("Q7")
+        Q8 = request.form.get("Q8")
+        Q9 = request.form.get("Q9")
+        Q10 = request.form.get("Q10")
+        Q11 = request.form.get("Q11")
+        Q12 = request.form.get("Q12")
+        Q13 = request.form.get("Q13")
+        Q14 = request.form.get("Q14")
+        Q15 = request.form.get("Q15")
+        Q16 = request.form.get("Q16")
+        Q17 = request.form.get("Q17")
+        Q18 = request.form.get("Q18")
+        Q19 = request.form.get("Q19")
+        Q20 = request.form.get("Q20")
+        Q21 = request.form.get("Q21")
+        Q22 = request.form.get("Q22")
+        Q23 = request.form.get("Q23")
+        Q24 = request.form.get("Q24")
+        Q25 = request.form.get("Q25")
+        Q26 = request.form.get("Q26")
+        Q27 = request.form.get("Q27")
+        Q28 = request.form.get("Q28")
+        Q29 = request.form.get("Q29")
+        Q30 = request.form.get("Q30")
+        Q31 = request.form.get("Q31")
+        Q32 = request.form.get("Q32")
+        Q33 = request.form.get("Q33")
+        Q34 = request.form.get("Q34")
+        Q35 = request.form.get("Q35")
+        Q36 = request.form.get("Q36")
+        Q37 = request.form.get("Q37")
+        Q38 = request.form.get("Q38")
+        Q39 = request.form.get("Q39")
+        Q40 = request.form.get("Q40")
+        Description = request.form.get("Description")
+
+        # insert the survey values into the table
+        selfassessment = db.execute("INSERT INTO surveyanswers (user_id, manager_id, Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q9, Q10, Q11, \
+        Q12, Q13, Q14, Q15, Q16, Q17, Q18, Q19, Q20, Q21, Q22, Q23, Q24, Q25, Q26, Q27, Q28, Q29, Q30, Q31, Q32, Q33, Q34, Q35, Q36, \
+        Q37, Q38, Q39, Q40, Description) \
+        VALUES(:user_id, :manager_id, :Q1, :Q2, :Q3, :Q4, :Q5, :Q6, :Q7, :Q8, :Q9, :Q10, :Q11, :Q12, :Q13, :Q14, :Q15, :Q16, :Q17, \
+        :Q18, :Q19, :Q20, :Q21, :Q22, :Q23, :Q24, :Q25, :Q26, :Q27, :Q28, :Q29, :Q30, :Q31, :Q32,:Q33, :Q34, :Q35, :Q36, :Q37, :Q38,\
+        :Q39, :Q40, :Description)",
+        user_id=session["user_id"], manager_id = manager_id, Q1=Q1, Q2=Q2, Q3=Q3, Q4=Q4, Q5=Q5, Q6=Q6, Q7=Q7, Q8=Q8, Q9=Q9, Q10=Q10,
+        Q11=Q11, Q12=Q12, Q13=Q13, Q14=Q14, Q15=Q15, Q16=Q16, Q17=Q17, Q18=Q18, Q19=Q19, Q20=Q20, Q21=Q21, Q22=Q22, Q23=Q23, Q24=Q24,
+        Q25=Q25, Q26=Q26, Q27=Q27, Q28=Q28, Q29=Q29, Q30=Q30, Q31=Q31, Q32=Q32, Q33=Q33, Q34=Q34, Q35=Q35, Q36=Q36, Q37=Q37, Q38=Q38,
+        Q39=Q39, Q40=Q40, Description=Description)
+
+        return render_template("employee_index.html")
 
     else:
-        # TODO ANNE
         # Name Manager
         # Questionnaire
         # Dont submit twice
