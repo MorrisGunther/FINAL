@@ -5,20 +5,14 @@
 {% endblock %}
 
 {% block main %}
-    <!--Using to check: https://getbootstrap.com/docs/4.1/components/forms/#validation-->
-
      <!-- http://getbootstrap.com/docs/4.1/content/typography/ -->
     <h1 class="mb-3">Form</h1>
 
     <!-- http://getbootstrap.com/docs/4.1/components/forms/ -->
-    <form action="/form" method="post" class="needs-validation" novalidate>
+    <form action="/employee_index" method="post">
         <!--Input field for name of manager-->
         <div class="form-group">
-            <label for="validationCustom01">Manager</label>
             <input autocomplete="off" autofocus class="form-control" name="manager_id" placeholder="Name of manager" type="text">
-            <div class="valid-feedback">
-            Looks good!
-            </div>
         </div>
         <p>1 My tasks motivate me and I get excited about my work.</p>
         <div class="form-group">
@@ -30,7 +24,6 @@
                 <option value="4">Partly agree</option>
                 <option value="5">Fully agree</option>
             </select>
-            <div class="invalid-feedback">Example invalid custom select feedback</div>
         </div>
         <p>2 I always know what may task is and can get straight to work.</p>
         <div class="form-group">
@@ -472,15 +465,8 @@
                 <option value="5">Fully agree</option>
             </select>
         </div>
-        <div class="form-group">
-          <label for="comment">3 words describing your manager:</label>
-          <textarea class="form-control" rows="3" id="comment"></textarea>
-        </div>
         <!--Submit button-->
         <!-- http://getbootstrap.com/docs/4.1/components/buttons/ -->
         <button class="btn btn-primary" type="Submit">Submit</button>
-
     </form>
-
-
 {% endblock %}
