@@ -168,14 +168,25 @@ def manager_request_feedback():
     if request.method == "POST":
         #usign https://www.pythonforbeginners.com/code-snippets-source-code/using-python-to-send-email
 
+        fromaddr = "annegegenmantel@gmail.com"
+        toaddr = "target@example.com"
+        msg = MIMEMultipart()
+        msg['From'] = fromaddr
+        msg['To'] = toaddr
+        msg['Subject'] = "Python email"
+
+        body = "Python test mail"
+        msg.attach(MIMEText(body, 'plain'))
+
         server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.ehlo()
+        server.starttls()
+        server.ehlo()
+        server.login("annegegenmantel@gmail.com", os.envget("password"))
+        text = msg.as_string()
+        server.sendmail(fromaddr, toaddr, text)
 
-        #Next, log in to the server
-        server.login("youremailusername", "password")
-
-        #Send the mail
-        msg = "/nHere are your login credentials" # The /n separates the message from the headers
-        server.sendmail("you@gmail.com", "target@example.com", msg)
+        return render_template("manager_self-assessment.html")
 
     # If the request method is GET, this renders the template "manager_request_feedback.html" via which the logged-in manager can ...
     else:
