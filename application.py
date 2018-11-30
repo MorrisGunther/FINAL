@@ -314,7 +314,8 @@ def employee_index():
         # Name Manager
         # Questionnaire
         # Dont submit twice
-        return render_template("employee_index.html")
+        users = db.execute("SELECT manager_name FROM users WHERE id=:id", id=session["user_id"])
+        return render_template("employee_index.html", users = users)
 
 
 def errorhandler(e):

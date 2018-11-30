@@ -10,10 +10,13 @@
 
     <!-- http://getbootstrap.com/docs/4.1/components/forms/ -->
     <form action="/employee_index" method="post">
+        {% for user in users %}
+            <p>Feedback for {{ user["manager_name"] }}</p>
+        {% endfor %}
         <!--Input field for name of manager-->
-        <div class="form-group">
-            <input autocomplete="off" autofocus class="form-control" name="manager_id" placeholder="Name of manager" type="text">
-        </div>
+        <!--<div class="form-group">-->
+        <!--    <input autocomplete="off" autofocus class="form-control" name="manager_id" placeholder="Name of manager" type="text">-->
+        <!--</div>-->
         <p>1 My tasks motivate me and I get excited about my work.</p>
         <div class="form-group">
             <select class="question" name="Q1">
