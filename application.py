@@ -239,7 +239,7 @@ def manager_self_assessment():
 
         if not selfassessment:
             print("hello")
-        return manager_apology("Thank you for submitting")
+        return render_template("manager_index.html")
 
         # Dont submit twice -> maybe add SQL column with default value of 0 and adding 1 if filled out and checking that?
 
