@@ -199,8 +199,8 @@ def manager_request_feedback():
                    email_address9=request.form.get("email9"),
                    email_address10=request.form.get("email10"))
 
-        # Alles wird lahm gelegt, wenn zweimal die gleiche Emailadresse eingegeben wird! Dieses Problem muss gelöst werden.
-        result = db.execute("INSERT INTO users (email_address, hash, manager_or_employee) SELECT employees.email_address, employees.hash, employees.manager_or_employee FROM employees WHERE employees.email_address !=''")
+# TODO  # Alles wird lahm gelegt, wenn zweimal die gleiche Emailadresse eingegeben wird! Dieses Problem muss gelöst werden.
+        result = db.execute("INSERT INTO users (email_address, hash, manager_or_employee) SELECT DISTINCT employees.email_address, employees.hash, employees.manager_or_employee FROM employees WHERE employees.email_address !=''")
 
         return render_template("manager_request_feedback_success.html")
 
