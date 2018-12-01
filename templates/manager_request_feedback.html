@@ -34,11 +34,14 @@
         document.querySelector('form').onsubmit = function(e) {
             e.preventDefault();
             $.get('/check_requests', {email: document.querySelector('input[name=email]').value}, function(data) {
-                if (data) {
+                if (data == 3) {
                     document.querySelector('form').submit();
                 }
-                else {
-                    alert('Either you have not typed in anyhing or you have typed in an email address to which you have already sent a request');
+                else if (data == 2) {
+                    alert('A request has already been sent to this email address.');
+                }
+                else if (data == 1) {
+                    alert('Please enter an email address.');
                 }
             });
         };

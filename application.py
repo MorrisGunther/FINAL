@@ -110,14 +110,16 @@ def check_requests():
     # Stores the email address that the manager provided via /manager_request_feedback in the variable "email_address"
     email_address = request.args.get("email")
 
-    # If the manager did not provide a email address or if there already is a user in the table "users" who has the same email address as the
-    # One provided by the manager, this returns, in JSON format, false
     registered_users = db.execute("SELECT * FROM users WHERE email_address = :email_address", email_address=email_address)
-    if not email_address or registered_users:
-        return jsonify(False)
+
+    if not email_address:
+        return jsonify(1)
+
+    elif registered_users:
+        return jsonify(2)
 
     # Otherwise, this returns, in JSON format, true
-    return jsonify(True)
+    return jsonify(3)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -175,6 +177,9 @@ def logout():
 @login_required
 def manager_index():
 
+        # TODO: Table erstellen, der Status zeigt:
+        # Zwei Spalten: linke Spalte: Name des Feedbackgebers, rechte Spalte: Status (awaiting oder received)
+
     return render_template("manager_index.html")
 
 
@@ -191,11 +196,22 @@ def manager_request_feedback():
         #server.login("annegegenmantel@gmail.com", os.getenv("password"))
         #server.sendmail("annegegenmantel@gmail.com", "annegegenmantel@gmail.com", message)
 
-        db.execute("INSERT INTO users (email_address, hash, manager_or_employee, id_of_manager_to_be_assessed) \
-                   VALUES (:email_address, 'hashed_passwordXXX', 'employee', :id_of_manager_to_be_assessed)",
-                   email_address=request.form.get("email"), id_of_manager_to_be_assessed=session['user_id'])
+    if request.method == "POST":
+        #feedback_givers = db.execute("SELECT email_address FROM users WHERE email_address =:email_address",
+         #                            email_address=request.form.get("email"))
+        #if not feedback_givers:
+        result = db.execute("INSERT INTO users (email_address, hash, manager_or_employee, id_of_manager_to_be_assessed) \
+                            VALUES (:email_address, 'hashed_passwordXXX', 'employee', :id_of_manager_to_be_assessed)",
+                            email_address=request.form.get("email"), id_of_manager_to_be_assessed=session['user_id'])
 
-        email_addresses = db.execute("SELECT email_address FROM users WHERE manager_or_employee='employee'")
+        if not result:
+            return manager_apology("A request has already been sent to this email address")
+
+        return redirect("/manager_request_feedback")
+
+    else:
+        email_addresses = db.execute("SELECT email_address FROM users WHERE id_of_manager_to_be_assessed=:id_of_manager_to_be_assessed",
+                                     id_of_manager_to_be_assessed=session['user_id'])
 
         return render_template("manager_request_feedback.html", email_addresses=email_addresses)
 
