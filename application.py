@@ -44,11 +44,7 @@ def register():
     # If the request method is POST, do the below
     if request.method == "POST":
 
-        # Apologises with the message "Missing username" if the new user (manager) did not provide a username
-        if not request.form.get("username"):
-            return manager_apology("Missing username")
-
-        # Apologises with the message "Missing username" if the new user (manager) did not provide a username
+        # Apologises with the message "Missing name" if the new user (manager) did not provide a username
         if not request.form.get("full_name"):
             return manager_apology("Missing name")
 
@@ -68,20 +64,20 @@ def register():
         # Hashes the password provided by the user (manager)
         hashed_password = generate_password_hash(request.form.get("password"))
 
-        # Inserts the new user (manager) (i.e. username, email address, hashed password, type of user) to the table "user" of the database
-        # (the below function will return "none" if the provided username does already exist in the table "users", since the field "username"
-        # Is a unique field in the table)
-        result = db.execute("INSERT INTO users (username, manager_name, email_address, hash, manager_or_employee) VALUES (:username, \
-                            :manager_name, :email_address, :hashed_password, 'manager')",
-                            username=request.form.get("username"), manager_name=request.form.get("full_name"),
-                            email_address=request.form.get("email"), hashed_password=hashed_password)
+        # Inserts the new user (manager) (i.e. full name, email address, hashed password, type of user) to the table "user" of the database
+        # (the below function will return "none" if the provided email address already exists in the table "users", since the field
+        # "email_address" is a unique field in the table)
+        result = db.execute("INSERT INTO users (manager_name, email_address, hash, manager_or_employee) \
+                            VALUES (:manager_name, :email_address, :hashed_password, 'manager')",
+                            manager_name=request.form.get("full_name"), email_address=request.form.get("email"),
+                            hashed_password=hashed_password)
 
-        # Apologises with the message "Username is not available" if the provided username does already exist in the table "users"
+        # Apologises with the message "Email address already registered" if the provided email address already exists in the table "users"
         if not result:
-            return manager_apology("Username is not available")
+            return manager_apology("Email address already registered")
 
         # Logs the new user (manager) in by storing his/her id number in sessions
-        id_ = db.execute("SELECT id FROM users WHERE username = :username", username=request.form.get("username"))
+        id_ = db.execute("SELECT id FROM users WHERE email_address = :email_address", email_address=request.form.get("email"))
         session["user_id"] = id_[0]["id"]
 
         # Redirects the new user (manager) to the homepage for managers
@@ -95,13 +91,13 @@ def register():
 @app.route("/check", methods=["GET"])
 def check():
 
-    # Stores the username that the user provided via /register in the variable "username"
-    username = request.args.get("username")
+    # Stores the email address that the user provided via /register in the variable "email_address"
+    email_address = request.args.get("email")
 
-    # If the user did not provide a username or if there already is a user in the table "users" who has the same username as the one provided by the
-    # New user, this returns, in JSON format, false
-    registered_users = db.execute("SELECT * FROM users WHERE username = :username", username=username)
-    if not username or registered_users:
+    # If the user did not provide a email address or if there already is a user in the table "users" who has the same email address as the
+    # One provided by the new user, this returns, in JSON format, false
+    registered_users = db.execute("SELECT * FROM users WHERE email_address = :email_address", email_address=email_address)
+    if not email_address or registered_users:
         return jsonify(False)
 
     # Otherwise, this returns, in JSON format, true
@@ -117,21 +113,21 @@ def login():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
-        # Ensure username was submitted
-        if not request.form.get("username"):
-            return manager_apology("must provide username", 403)
+        # Ensure email address was submitted
+        if not request.form.get("email"):
+            return manager_apology("must provide email address", 403)
 
         # Ensure password was submitted
         elif not request.form.get("password"):
             return manager_apology("must provide password", 403)
 
         # Query database for username
-        rows = db.execute("SELECT * FROM users WHERE username = :username",
-                          username=request.form.get("username"))
+        rows = db.execute("SELECT * FROM users WHERE email_address = :email_address",
+                          email_address=request.form.get("email"))
 
         # Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
-            return manager_apology("invalid username and/or password", 403)
+            return manager_apology("invalid email address and/or password", 403)
 
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
@@ -181,17 +177,17 @@ def manager_request_feedback():
         #server.login("annegegenmantel@gmail.com", os.getenv("password"))
         #server.sendmail("annegegenmantel@gmail.com", "annegegenmantel@gmail.com", message)
 
-        db.execute("INSERT INTO users (username, email_address, hash, manager_or_employee) VALUES \
-                   ('username1', :email_address1, 'hashed_passwordXXX', 'employee'), \
-                   ('username2', :email_address2, 'hashed_passwordXXX', 'employee'), \
-                   ('username3', :email_address3, 'hashed_passwordXXX', 'employee'), \
-                   ('username4', :email_address4, 'hashed_passwordXXX', 'employee'), \
-                   ('username5', :email_address5, 'hashed_passwordXXX', 'employee'), \
-                   ('username6', :email_address6, 'hashed_passwordXXX', 'employee'), \
-                   ('username7', :email_address7, 'hashed_passwordXXX', 'employee'), \
-                   ('username8', :email_address8, 'hashed_passwordXXX', 'employee'), \
-                   ('username9', :email_address9, 'hashed_passwordXXX', 'employee'), \
-                   ('username10', :email_address10, 'hashed_passwordXXX', 'employee')",
+        db.execute("INSERT INTO employees (email_address, hash, manager_or_employee) VALUES \
+                   (:email_address1, 'hashed_passwordXXX', 'employee'), \
+                   (:email_address2, 'hashed_passwordXXX', 'employee'), \
+                   (:email_address3, 'hashed_passwordXXX', 'employee'), \
+                   (:email_address4, 'hashed_passwordXXX', 'employee'), \
+                   (:email_address5, 'hashed_passwordXXX', 'employee'), \
+                   (:email_address6, 'hashed_passwordXXX', 'employee'), \
+                   (:email_address7, 'hashed_passwordXXX', 'employee'), \
+                   (:email_address8, 'hashed_passwordXXX', 'employee'), \
+                   (:email_address9, 'hashed_passwordXXX', 'employee'), \
+                   (:email_address10, 'hashed_passwordXXX', 'employee')",
                    email_address1=request.form.get("email1"),
                    email_address2=request.form.get("email2"),
                    email_address3=request.form.get("email3"),
@@ -202,6 +198,9 @@ def manager_request_feedback():
                    email_address8=request.form.get("email8"),
                    email_address9=request.form.get("email9"),
                    email_address10=request.form.get("email10"))
+
+        # Alles wird lahm gelegt, wenn zweimal die gleiche Emailadresse eingegeben wird! Dieses Problem muss gelöst werden.
+        result = db.execute("INSERT INTO users (email_address, hash, manager_or_employee) SELECT employees.email_address, employees.hash, employees.manager_or_employee FROM employees WHERE employees.email_address !=''")
 
         return render_template("manager_request_feedback_success.html")
 
