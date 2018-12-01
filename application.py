@@ -44,7 +44,7 @@ def register():
     # If the request method is POST, do the below
     if request.method == "POST":
 
-        # Apologises with the message "Missing name" if the new user (manager) did not provide a username
+        # Apologises with the message "Missing name" if the new user (manager) did not provide his name
         if not request.form.get("full_name"):
             return manager_apology("Missing name")
 
@@ -72,9 +72,9 @@ def register():
                             manager_name=request.form.get("full_name"), email_address=request.form.get("email"),
                             hashed_password=hashed_password)
 
-        # Apologises with the message "Email address already registered" if the provided email address already exists in the table "users"
+        # Apologises with the message "Email is not available" if the provided email address already exists in the table "users"
         if not result:
-            return manager_apology("Email address already registered")
+            return manager_apology("Email is not available")
 
         # Logs the new user (manager) in by storing his/her id number in sessions
         id_ = db.execute("SELECT id FROM users WHERE email_address = :email_address", email_address=request.form.get("email"))
@@ -191,10 +191,11 @@ def manager_request_feedback():
         #server.login("annegegenmantel@gmail.com", os.getenv("password"))
         #server.sendmail("annegegenmantel@gmail.com", "annegegenmantel@gmail.com", message)
 
-        db.execute("INSERT INTO users (email_address, hash, manager_or_employee) VALUES (:email_address, 'hashed_passwordXXX', 'employee')",
-                   email_address=request.form.get("email"))
+        db.execute("INSERT INTO users (email_address, hash, manager_or_employee, id_of_manager_to_be_assessed) \
+                   VALUES (:email_address, 'hashed_passwordXXX', 'employee', :id_of_manager_to_be_assessed)",
+                   email_address=request.form.get("email"), id_of_manager_to_be_assessed=session['user_id'])
 
-        email_addresses = db.execute("SELECT email_address FROM users")
+        email_addresses = db.execute("SELECT email_address FROM users WHERE manager_or_employee='employee'")
 
         return render_template("manager_request_feedback.html", email_addresses=email_addresses)
 
@@ -259,8 +260,8 @@ def manager_self_assessment():
         return render_template("manager_self_assessment_success.html")
 
     else:
-        feedbacker_ids = db.execute("SELECT feedbacker_id FROM surveyanswers WHERE feedbackee_id=:feedbackee_id AND \
-                                    feedbacker_id=:feedbacker_id", feedbackee_id=session['user_id'], feedbacker_id=session['user_id'])
+        feedbacker_ids = db.execute("SELECT feedbacker_id FROM surveyanswers WHERE feedbacker_id=:feedbacker_id",
+                                    feedbacker_id=session['user_id'])
 
         if not feedbacker_ids:
             return render_template("manager_self_assessment.html")
@@ -276,9 +277,15 @@ def manager_view_report():
     return render_template("manager_view_report.html")
 
 
-@app.route("/employee_index", methods=["GET", "POST"])
+@app.route("/employee_index")
 @login_required
 def employee_index():
+    return render_template("employee_index.html")
+
+
+@app.route("/employee_provide_feedback", methods=["GET", "POST"])
+@login_required
+def employee_provide_feedback():
 
     if request.method == "POST":
         Q1 = request.form.get("Q1")
@@ -322,25 +329,37 @@ def employee_index():
         Q39 = request.form.get("Q39")
         Q40 = request.form.get("Q40")
 
-        # insert the survey values into the table
-        selfassessment = db.execute("INSERT INTO surveyanswers(Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q9, Q10, Q11, Q12, Q13, Q14, \
-                                    Q15, Q16, Q17, Q18, Q19, Q20, Q21, Q22, Q23, Q24, Q25, Q26, Q27, Q28, Q29, Q30, Q31, Q32, Q33, Q34, \
-                                    Q35, Q36, Q37, Q38, Q39, Q40) VALUES (:Q1, :Q2, :Q3, :Q4, :Q5, :Q6, :Q7, :Q8, \
-                                    :Q9, :Q10, :Q11, :Q12, :Q13, :Q14, :Q15, :Q16, :Q17, :Q18, :Q19, :Q20, :Q21, :Q22, :Q23, :Q24, :Q25, :Q26, \
-                                    :Q27, :Q28, :Q29, :Q30, :Q31, :Q32, :Q33, :Q34, :Q35, :Q36, :Q37, :Q38, :Q39, :Q40)",
-                                    Q1=Q1, Q2=Q2, Q3=Q3, Q4=Q4, Q5=Q5, Q6=Q6, Q7=Q7, Q8=Q8, Q9=Q9, Q10=Q10, Q11=Q11,
-                                    Q12=Q12, Q13=Q13, Q14=Q14, Q15=Q15, Q16=Q16, Q17=Q17, Q18=Q18, Q19=Q19, Q20=Q20, Q21=Q21, Q22=Q22, Q23=Q23,
-                                    Q24=Q24, Q25=Q25, Q26=Q26, Q27=Q27, Q28=Q28, Q29=Q29, Q30=Q30, Q31=Q31, Q32=Q32, Q33=Q33, Q34=Q34, Q35=Q35,
-                                    Q36=Q36, Q37=Q37, Q38=Q38, Q39=Q39, Q40=Q40)
+        feedbackee_id = db.execute("SELECT id_of_manager_to_be_assessed FROM users WHERE id=:id_", id_=session['user_id'])
+        feedbackee_id_ = feedbackee_id[0]["id_of_manager_to_be_assessed"]
 
-        return render_template("employee_index.html")
+        # insert the survey values into the table
+        db.execute("INSERT INTO surveyanswers(feedbacker_id, feedbackee_id, Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q9, Q10, Q11, \
+                   Q12, Q13, Q14, Q15, Q16, Q17, Q18, Q19, Q20, Q21, Q22, Q23, Q24, Q25, Q26, Q27, Q28, Q29, Q30, Q31, Q32, \
+                   Q33, Q34, Q35, Q36, Q37, Q38, Q39, Q40) VALUES (:feedbacker_id, :feedbackee_id, :Q1, :Q2, :Q3, :Q4, :Q5, \
+                   :Q6, :Q7, :Q8, :Q9, :Q10, :Q11, :Q12, :Q13, :Q14, :Q15, :Q16, :Q17, :Q18, :Q19, :Q20, :Q21, :Q22, :Q23, \
+                   :Q24, :Q25, :Q26, :Q27, :Q28, :Q29, :Q30, :Q31, :Q32, :Q33, :Q34, :Q35, :Q36, :Q37, :Q38, :Q39, :Q40)",
+                   feedbacker_id=session['user_id'], feedbackee_id=feedbackee_id_, Q1=Q1, Q2=Q2, Q3=Q3, Q4=Q4, Q5=Q5, Q6=Q6, Q7=Q7, Q8=Q8, Q9=Q9, Q10=Q10, Q11=Q11,
+                   Q12=Q12, Q13=Q13, Q14=Q14, Q15=Q15, Q16=Q16, Q17=Q17, Q18=Q18, Q19=Q19, Q20=Q20, Q21=Q21, Q22=Q22, Q23=Q23,
+                   Q24=Q24, Q25=Q25, Q26=Q26, Q27=Q27, Q28=Q28, Q29=Q29, Q30=Q30, Q31=Q31, Q32=Q32, Q33=Q33, Q34=Q34, Q35=Q35,
+                   Q36=Q36, Q37=Q37, Q38=Q38, Q39=Q39, Q40=Q40)
+
+        return render_template("employee_provide_feedback_success.html")
 
     else:
-        # Name Manager
-        # Questionnaire
-        # Dont submit twice
-        users = db.execute("SELECT manager_name FROM users WHERE id=:id", id=session["user_id"])
-        return render_template("employee_index.html", users = users)
+        feedbacker_ids = db.execute("SELECT feedbacker_id FROM surveyanswers WHERE feedbacker_id=:feedbacker_id",
+                                    feedbacker_id=session['user_id'])
+
+        if not feedbacker_ids:
+            id_of_manager_to_be_assessed = db.execute("SELECT id_of_manager_to_be_assessed FROM users WHERE id=:id_", id_=session['user_id'])
+            id_of_manager_to_be_assessed_ = id_of_manager_to_be_assessed[0]["id_of_manager_to_be_assessed"]
+            manager_name = db.execute("SELECT manager_name FROM users WHERE id=:id_of_manager_to_be_assessed_",
+                                      id_of_manager_to_be_assessed_=id_of_manager_to_be_assessed_)
+            manager_name_ = manager_name[0]["manager_name"]
+
+            return render_template("employee_provide_feedback.html", manager_name_=manager_name_)
+
+        else:
+            return render_template("employee_feedback_already_submitted.html")
 
 
 def errorhandler(e):
