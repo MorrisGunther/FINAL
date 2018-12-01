@@ -48,6 +48,10 @@ def register():
         if not request.form.get("username"):
             return manager_apology("Missing username")
 
+        # Apologises with the message "Missing username" if the new user (manager) did not provide a username
+        if not request.form.get("full_name"):
+            return manager_apology("Missing name")
+
         # Apologises with the message "Missing email address" if the new user (manager) did not provide a email address
         if not request.form.get("email"):
             return manager_apology("Missing email address")
@@ -67,8 +71,10 @@ def register():
         # Inserts the new user (manager) (i.e. username, email address, hashed password, type of user) to the table "user" of the database
         # (the below function will return "none" if the provided username does already exist in the table "users", since the field "username"
         # Is a unique field in the table)
-        result = db.execute("INSERT INTO users (username, email_address, hash, manager_or_employee) VALUES (:username, :email_address, :hashed_password, 'manager')",
-                            username=request.form.get("username"), email_address=request.form.get("email"), hashed_password=hashed_password)
+        result = db.execute("INSERT INTO users (username, manager_name, email_address, hash, manager_or_employee) VALUES (:username, \
+                            :manager_name, :email_address, :hashed_password, 'manager')",
+                            username=request.form.get("username"), manager_name=request.form.get("full_name"),
+                            email_address=request.form.get("email"), hashed_password=hashed_password)
 
         # Apologises with the message "Username is not available" if the provided username does already exist in the table "users"
         if not result:
@@ -175,29 +181,29 @@ def manager_request_feedback():
         #server.login("annegegenmantel@gmail.com", os.getenv("password"))
         #server.sendmail("annegegenmantel@gmail.com", "annegegenmantel@gmail.com", message)
 
-        result = db.execute("INSERT INTO users (username, email_address, hash, manager_or_employee) VALUES \
-                            ('username1', :email_address1, 'hashed_passwordXXX', 'employee'), \
-                            ('username2', :email_address2, 'hashed_passwordXXX', 'employee'), \
-                            ('username3', :email_address3, 'hashed_passwordXXX', 'employee'), \
-                            ('username4', :email_address4, 'hashed_passwordXXX', 'employee'), \
-                            ('username5', :email_address5, 'hashed_passwordXXX', 'employee'), \
-                            ('username6', :email_address6, 'hashed_passwordXXX', 'employee'), \
-                            ('username7', :email_address7, 'hashed_passwordXXX', 'employee'), \
-                            ('username8', :email_address8, 'hashed_passwordXXX', 'employee'), \
-                            ('username9', :email_address9, 'hashed_passwordXXX', 'employee'), \
-                            ('username10', :email_address10, 'hashed_passwordXXX', 'employee')",
-                            email_address1=request.form.get("email1"),
-                            email_address2=request.form.get("email2"),
-                            email_address3=request.form.get("email3"),
-                            email_address4=request.form.get("email4"),
-                            email_address5=request.form.get("email5"),
-                            email_address6=request.form.get("email6"),
-                            email_address7=request.form.get("email7"),
-                            email_address8=request.form.get("email8"),
-                            email_address9=request.form.get("email9"),
-                            email_address10=request.form.get("email10"))
+        db.execute("INSERT INTO users (username, email_address, hash, manager_or_employee) VALUES \
+                   ('username1', :email_address1, 'hashed_passwordXXX', 'employee'), \
+                   ('username2', :email_address2, 'hashed_passwordXXX', 'employee'), \
+                   ('username3', :email_address3, 'hashed_passwordXXX', 'employee'), \
+                   ('username4', :email_address4, 'hashed_passwordXXX', 'employee'), \
+                   ('username5', :email_address5, 'hashed_passwordXXX', 'employee'), \
+                   ('username6', :email_address6, 'hashed_passwordXXX', 'employee'), \
+                   ('username7', :email_address7, 'hashed_passwordXXX', 'employee'), \
+                   ('username8', :email_address8, 'hashed_passwordXXX', 'employee'), \
+                   ('username9', :email_address9, 'hashed_passwordXXX', 'employee'), \
+                   ('username10', :email_address10, 'hashed_passwordXXX', 'employee')",
+                   email_address1=request.form.get("email1"),
+                   email_address2=request.form.get("email2"),
+                   email_address3=request.form.get("email3"),
+                   email_address4=request.form.get("email4"),
+                   email_address5=request.form.get("email5"),
+                   email_address6=request.form.get("email6"),
+                   email_address7=request.form.get("email7"),
+                   email_address8=request.form.get("email8"),
+                   email_address9=request.form.get("email9"),
+                   email_address10=request.form.get("email10"))
 
-        return redirect("/manager_request_feedback")
+        return render_template("manager_request_feedback_success.html")
 
     # If the request method is GET, this renders the template "manager_request_feedback.html" via which the logged-in manager can ...
     else:
@@ -210,7 +216,6 @@ def manager_request_feedback():
 def manager_self_assessment():
 
     if request.method == "POST":
-        manager_id = request.form.get("manager_id")
         Q1 = request.form.get("Q1")
         Q2 = request.form.get("Q2")
         Q3 = request.form.get("Q3")
@@ -251,25 +256,31 @@ def manager_self_assessment():
         Q38 = request.form.get("Q38")
         Q39 = request.form.get("Q39")
         Q40 = request.form.get("Q40")
-        Description = request.form.get("Description")
 
         # insert the survey values into the table
-        selfassessment = db.execute("INSERT INTO surveyanswers(manager_id, Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q9, Q10, Q11, Q12, Q13, Q14, Q15, \
-                                    Q16, Q17, Q18, Q19, Q20, Q21, Q22, Q23, Q24, Q25, Q26, Q27, Q28, Q29, Q30, Q31, Q32, Q33, Q34, Q35, Q36, \
-                                    Q37, Q38, Q39, Q40, Description) VALUES (:manager_id, :Q1, :Q2, :Q3, :Q4, :Q5, :Q6, :Q7, :Q8, :Q9, :Q10, \
-                                    :Q11, :Q12, :Q13, :Q14, :Q15, :Q16, :Q17, :Q18, :Q19, :Q20, :Q21, :Q22, :Q23, :Q24, :Q25, :Q26, :Q27, \
-                                    :Q28, :Q29, :Q30, :Q31, :Q32, :Q33, :Q34, :Q35, :Q36, :Q37, :Q38, :Q39, :Q40, :Description)", \
-                                    manager_id = manager_id, Q1=Q1, Q2=Q2, Q3=Q3, Q4=Q4, Q5=Q5, Q6=Q6, Q7=Q7, Q8=Q8, Q9=Q9, Q10=Q10, Q11=Q11,
-                                    Q12=Q12, Q13=Q13, Q14=Q14, Q15=Q15, Q16=Q16, Q17=Q17, Q18=Q18, Q19=Q19, Q20=Q20, Q21=Q21, Q22=Q22, Q23=Q23,
-                                    Q24=Q24, Q25=Q25, Q26=Q26, Q27=Q27, Q28=Q28, Q29=Q29, Q30=Q30, Q31=Q31, Q32=Q32, Q33=Q33, Q34=Q34, Q35=Q35,
-                                    Q36=Q36, Q37=Q37, Q38=Q38, Q39=Q39, Q40=Q40, Description=Description)
+        db.execute("INSERT INTO surveyanswers(feedbacker_id, feedbackee_id, Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q9, Q10, Q11, Q12, Q13, Q14, Q15, \
+                   Q16, Q17, Q18, Q19, Q20, Q21, Q22, Q23, Q24, Q25, Q26, Q27, Q28, Q29, Q30, Q31, Q32, Q33, Q34, Q35, Q36, \
+                   Q37, Q38, Q39, Q40) VALUES (:feedbacker_id, :feedbackee_id, :Q1, :Q2, :Q3, :Q4, :Q5, :Q6, :Q7, :Q8, :Q9, :Q10, \
+                   :Q11, :Q12, :Q13, :Q14, :Q15, :Q16, :Q17, :Q18, :Q19, :Q20, :Q21, :Q22, :Q23, :Q24, :Q25, :Q26, :Q27, \
+                   :Q28, :Q29, :Q30, :Q31, :Q32, :Q33, :Q34, :Q35, :Q36, :Q37, :Q38, :Q39, :Q40)",
+                   feedbacker_id=session['user_id'], feedbackee_id=session['user_id'], Q1=Q1, Q2=Q2, Q3=Q3, Q4=Q4, Q5=Q5, Q6=Q6, Q7=Q7, Q8=Q8,
+                   Q9=Q9, Q10=Q10, Q11=Q11, Q12=Q12, Q13=Q13, Q14=Q14, Q15=Q15, Q16=Q16, Q17=Q17, Q18=Q18, Q19=Q19, Q20=Q20, Q21=Q21, Q22=Q22,
+                   Q23=Q23, Q24=Q24, Q25=Q25, Q26=Q26, Q27=Q27, Q28=Q28, Q29=Q29, Q30=Q30, Q31=Q31, Q32=Q32, Q33=Q33, Q34=Q34, Q35=Q35,
+                   Q36=Q36, Q37=Q37, Q38=Q38, Q39=Q39, Q40=Q40)
 
-        return render_template("manager_index.html")
-
-        # Dont submit twice -> maybe add SQL column with default value of 0 and adding 1 if filled out and checking that?
+        return render_template("manager_self_assessment_success.html")
 
     else:
-        return render_template("manager_self_assessment.html")
+        feedbacker_ids = db.execute("SELECT feedbacker_id FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
+                                    feedbackee_id=session['user_id'])
+
+        if not feedbacker_ids:
+            return render_template("manager_self_assessment.html")
+        else:
+            for feedbacker_id in feedbacker_ids:
+                if feedbacker_id["feedbacker_id"] == session["user_id"]:
+                    return render_template("manager_self_assessment_already_submitted.html")
+                    break
 
 
 @app.route("/manager_view_report")
