@@ -259,16 +259,13 @@ def manager_self_assessment():
         return render_template("manager_self_assessment_success.html")
 
     else:
-        feedbacker_ids = db.execute("SELECT feedbacker_id FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
-                                    feedbackee_id=session['user_id'])
+        feedbacker_ids = db.execute("SELECT feedbacker_id FROM surveyanswers WHERE feedbackee_id=:feedbackee_id AND \
+                                    feedbacker_id=:feedbacker_id", feedbackee_id=session['user_id'], feedbacker_id=session['user_id'])
 
         if not feedbacker_ids:
             return render_template("manager_self_assessment.html")
         else:
-            for feedbacker_id in feedbacker_ids:
-                if feedbacker_id["feedbacker_id"] == session["user_id"]:
-                    return render_template("manager_self_assessment_already_submitted.html")
-                    break
+            return render_template("manager_self_assessment_already_submitted.html")
 
 
 @app.route("/manager_view_report")
@@ -284,7 +281,6 @@ def manager_view_report():
 def employee_index():
 
     if request.method == "POST":
-
         Q1 = request.form.get("Q1")
         Q2 = request.form.get("Q2")
         Q3 = request.form.get("Q3")
