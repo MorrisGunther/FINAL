@@ -88,14 +88,30 @@ def register():
         return render_template("register.html")
 
 
-@app.route("/check", methods=["GET"])
-def check():
+@app.route("/check_register", methods=["GET"])
+def check_register():
 
     # Stores the email address that the user provided via /register in the variable "email_address"
     email_address = request.args.get("email")
 
     # If the user did not provide a email address or if there already is a user in the table "users" who has the same email address as the
     # One provided by the new user, this returns, in JSON format, false
+    registered_users = db.execute("SELECT * FROM users WHERE email_address = :email_address", email_address=email_address)
+    if not email_address or registered_users:
+        return jsonify(False)
+
+    # Otherwise, this returns, in JSON format, true
+    return jsonify(True)
+
+@app.route("/check_requests", methods=["GET"])
+@login_required
+def check_requests():
+
+    # Stores the email address that the manager provided via /manager_request_feedback in the variable "email_address"
+    email_address = request.args.get("email")
+
+    # If the manager did not provide a email address or if there already is a user in the table "users" who has the same email address as the
+    # One provided by the manager, this returns, in JSON format, false
     registered_users = db.execute("SELECT * FROM users WHERE email_address = :email_address", email_address=email_address)
     if not email_address or registered_users:
         return jsonify(False)
@@ -166,8 +182,6 @@ def manager_index():
 @login_required
 def manager_request_feedback():
 
-    # If the request method is POST, do the below
-    if request.method == "POST":
         #usign https://www.pythonforbeginners.com/code-snippets-source-code/using-python-to-send-email
 
         #message = "Here are your login credentials"
@@ -177,37 +191,12 @@ def manager_request_feedback():
         #server.login("annegegenmantel@gmail.com", os.getenv("password"))
         #server.sendmail("annegegenmantel@gmail.com", "annegegenmantel@gmail.com", message)
 
-        db.execute("INSERT INTO employees (email_address, hash, manager_or_employee) VALUES \
-                   (:email_address1, 'hashed_passwordXXX', 'employee'), \
-                   (:email_address2, 'hashed_passwordXXX', 'employee'), \
-                   (:email_address3, 'hashed_passwordXXX', 'employee'), \
-                   (:email_address4, 'hashed_passwordXXX', 'employee'), \
-                   (:email_address5, 'hashed_passwordXXX', 'employee'), \
-                   (:email_address6, 'hashed_passwordXXX', 'employee'), \
-                   (:email_address7, 'hashed_passwordXXX', 'employee'), \
-                   (:email_address8, 'hashed_passwordXXX', 'employee'), \
-                   (:email_address9, 'hashed_passwordXXX', 'employee'), \
-                   (:email_address10, 'hashed_passwordXXX', 'employee')",
-                   email_address1=request.form.get("email1"),
-                   email_address2=request.form.get("email2"),
-                   email_address3=request.form.get("email3"),
-                   email_address4=request.form.get("email4"),
-                   email_address5=request.form.get("email5"),
-                   email_address6=request.form.get("email6"),
-                   email_address7=request.form.get("email7"),
-                   email_address8=request.form.get("email8"),
-                   email_address9=request.form.get("email9"),
-                   email_address10=request.form.get("email10"))
+        db.execute("INSERT INTO users (email_address, hash, manager_or_employee) VALUES (:email_address, 'hashed_passwordXXX', 'employee')",
+                   email_address=request.form.get("email"))
 
-# TODO  # Alles wird lahm gelegt, wenn zweimal die gleiche Emailadresse eingegeben wird! Dieses Problem muss gelöst werden.
-        result = db.execute("INSERT INTO users (email_address, hash, manager_or_employee) SELECT DISTINCT employees.email_address, employees.hash, employees.manager_or_employee FROM employees WHERE employees.email_address !=''")
+        email_addresses = db.execute("SELECT email_address FROM users")
 
-        return render_template("manager_request_feedback_success.html")
-
-    # If the request method is GET, this renders the template "manager_request_feedback.html" via which the logged-in manager can ...
-    else:
-        # TODO MORRIS
-        return render_template("manager_request_feedback.html")
+        return render_template("manager_request_feedback.html", email_addresses=email_addresses)
 
 
 @app.route("/manager_self_assessment", methods=["GET", "POST"])

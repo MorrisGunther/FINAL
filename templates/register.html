@@ -24,7 +24,7 @@
     <script>
         document.querySelector('form').onsubmit = function(e) {
             e.preventDefault();
-            $.get('/check', {email: document.querySelector('input[name=email]').value}, function(data) {
+            $.get('/check_register', {email: document.querySelector('input[name=email]').value}, function(data) {
                 if (data) {
                     document.querySelector('form').submit();
                 }
