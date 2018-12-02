@@ -1,8 +1,4 @@
-1. Email-Versand in manager_request_feedback machen, der Platzhalter 'hashed_passwordXXX' beim Inserten in die Datenbank muss
-   dann auch geändert werden
-   In der Mail müssen die Zugangsdaten für den Employee stehen:
-   - Seine Emailadresse
-   - Automatisch generiertes Passwort
+1. Den Link in der Email noch machen (application.py line 239)
 2. Select menus in self-assessment und employee_provide_feedback dünner machen
 3. Data Visualization in View report
 4. Wie funktioniert das Bootstrap für employee_provide_feedback und manager_provide_feedback? (mit Java vermutlich oder?)

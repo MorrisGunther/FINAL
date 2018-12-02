@@ -1,9 +1,9 @@
 import os
 import smtplib
 
-# from email.MIMEMultipart import MIMEMultipart
-# from email.MIMEText import MIMEText
-
+from random import choice
+from string import ascii_uppercase, digits
+from email.mime.text import MIMEText
 from cs50 import SQL
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
 from flask_session import Session
@@ -215,25 +215,46 @@ def manager_index():
 @login_required
 def manager_request_feedback():
 
-        #usign https://www.pythonforbeginners.com/code-snippets-source-code/using-python-to-send-email
-
-        #message = "Here are your login credentials"
-        #server = smtplib.SMTP('smtp.gmail.com', 587)
-        #server.ehlo()
-        #server.starttls()
-        #server.login("annegegenmantel@gmail.com", os.getenv("password"))
-        #server.sendmail("annegegenmantel@gmail.com", "annegegenmantel@gmail.com", message)
-
     if request.method == "POST":
-        #feedback_givers = db.execute("SELECT email_address FROM users WHERE email_address =:email_address",
-         #                            email_address=request.form.get("email"))
-        #if not feedback_givers:
+        password_length = 12
+        random_password_for_requested_employee = ''.join(choice(ascii_uppercase + digits) for i in range(password_length))
+        hashed_password = generate_password_hash(random_password_for_requested_employee)
+
         result = db.execute("INSERT INTO users (email_address, hash, manager_or_employee, id_of_manager_to_be_assessed) \
-                            VALUES (:email_address, 'hashed_passwordXXX', 'employee', :id_of_manager_to_be_assessed)",
-                            email_address=request.form.get("email"), id_of_manager_to_be_assessed=session['user_id'])
+                            VALUES (:email_address, :hashed_password, 'employee', :id_of_manager_to_be_assessed)",
+                            email_address=request.form.get("email"), hashed_password=hashed_password,
+                            id_of_manager_to_be_assessed=session['user_id'])
 
         if not result:
             return manager_apology("A request has already been sent to this email address")
+
+        a = "Dear Sir or Madam, \n\n this is a request to provide feedback for Mr/Mrs "
+        b = db.execute("SELECT manager_name FROM users WHERE id=:id_", id_=session['user_id'])
+        b_ = b[0]["manager_name"]
+        c = ". Please click on the link below to start the process. \n\n Your login credentials are: \n Email address: "
+        d = request.form.get("email")
+        e = "\n Password: "
+        f = random_password_for_requested_employee
+        g = "\n\n"
+        #TODO#h = u'<a href="www.google.com">abc</a>','html'
+        h = "XXXlink"
+        i = "\n\n Sincerely, \n Your ANMO Team"
+        message_ = [a, b_, c, d, e, f, g, h, i]
+        message = "".join(message_)
+
+        sent_from = 'cs50.anmo@gmail.com'
+        to  = request.form.get("email")
+        msg = MIMEText(message)
+        msg['Subject'] = 'Feedback request for your manager'
+        msg['From'] = sent_from
+        msg['To'] = to
+
+        gmail_user = 'cs50.anmo@gmail.com'
+        gmail_password = 'HKUJZT45-A!fvgh'
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.starttls()
+        server.login(gmail_user, gmail_password)
+        server.sendmail(sent_from, to, msg.as_string())
 
         return redirect("/manager_request_feedback")
 
