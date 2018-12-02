@@ -20,4 +20,18 @@
 <p>
     ANMO team
 </p>
+<p>
+    {% for email_of_requested_employees_ in emails_of_requested_employees_ %}
+        <p>
+            {{ email_of_requested_employees_ }}
+        </p>
+    {% endfor %}
+<p/>
+<p>
+    {% for i in awaiting_or_received %}
+        <p>
+            {{ i }}
+        </p>
+    {% endfor %}
+</p>
 {% endblock %}
