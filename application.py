@@ -177,24 +177,22 @@ def logout():
 @login_required
 def manager_index():
 
+    manager_name = db.execute("SELECT manager_name FROM users WHERE id=:id_", id_=session['user_id'])
+    manager_name = manager_name[0]["manager_name"]
+
     requested_employees = db.execute("SELECT id FROM users WHERE id_of_manager_to_be_assessed=:id_of_manager_to_be_assessed",
                                      id_of_manager_to_be_assessed=session['user_id'])
-
     requested_employees_ = []
-
     for requested_employee in requested_employees:
         requested_employees_.append(requested_employee["id"])
 
     employees_who_already_submitted_feedback = db.execute("SELECT feedbacker_id FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
                                                           feedbackee_id=session['user_id'])
-
     employees_who_already_submitted_feedback_ = []
-
     for employee_who_already_submitted_feedback in employees_who_already_submitted_feedback:
         employees_who_already_submitted_feedback_.append(employee_who_already_submitted_feedback["feedbacker_id"])
 
     awaiting_or_received = []
-
     for requested_employee_ in requested_employees_:
         if requested_employee_ in employees_who_already_submitted_feedback_:
             awaiting_or_received.append("received")
@@ -209,8 +207,8 @@ def manager_index():
     for email_of_requested_employees in emails_of_requested_employees:
         emails_of_requested_employees_.append(email_of_requested_employees["email_address"])
 
-    return render_template("manager_index.html",
-                           awaiting_or_received=awaiting_or_received, emails_of_requested_employees_=emails_of_requested_employees_)
+    return render_template("manager_index.html", manager_name=manager_name, awaiting_or_received=awaiting_or_received,
+                           emails_of_requested_employees_=emails_of_requested_employees_)
 
 
 @app.route("/manager_request_feedback", methods=["GET", "POST"])
@@ -319,8 +317,9 @@ def manager_self_assessment():
 @login_required
 def manager_view_report():
 
-    # TODO
-    return render_template("manager_view_report.html")
+    manager_name = db.execute("SELECT manager_name FROM users WHERE id=:id_", id_=session['user_id'])
+    manager_name = manager_name[0]["manager_name"]
+    return render_template("manager_view_report.html", manager_name=manager_name)
 
 
 @app.route("/employee_index")
