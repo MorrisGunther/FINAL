@@ -321,8 +321,10 @@ def manager_self_assessment():
 @login_required
 def manager_view_report():
 
-    # TODO
-    return render_template("manager_view_report.html")
+    manager_name = db.execute("SELECT manager_name FROM users WHERE id=:id_", id_=session['user_id'])
+    manager_name = manager_name[0]["manager_name"]
+
+    return render_template("manager_view_report.html", manager_name=manager_name)
 
 
 @app.route("/employee_index")

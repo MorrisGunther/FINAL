@@ -5,31 +5,40 @@
 {% endblock %}
 
 {% block main %}
-    <!-- http://getbootstrap.com/docs/4.1/content/typography/ -->
-    <h1 class="mb-3">Request feedback</h1>
-
-    <!-- http://getbootstrap.com/docs/4.1/components/forms/ -->
-    <form action="/manager_request_feedback" method="post">
-        <!--Input field for name of manager-->
-        <div class="form-group">
-            <input autocomplete="off" autofocus class="form-control" name="email" placeholder="Email of feedback giver" type="text">
-        </div>
-         <!--Submit button-->
-        <!-- http://getbootstrap.com/docs/4.1/components/buttons/ -->
-        <button class="btn btn-primary" type="Submit">Submit</button>
-    </form>
-    <p>
-    </p>
-    <h6>
-        Requests have already been sent to:
-    </h6>
-    <div>
-        {% for email_address in email_addresses %}
-            <div>
-                {{ email_address["email_address"] }}
+    <!--Input field for name of manager-->
+    <div class="container-fluid">
+        <div class="row">
+            <div id="infodisplay_col" class="col-md-6">
+                <!-- http://getbootstrap.com/docs/4.1/content/typography/ -->
+                <h1 class="mb-3">Request feedback</h1>
+                <!-- http://getbootstrap.com/docs/4.1/components/forms/ -->
+                <form action="/manager_request_feedback" method="post">
+                    <div class="form-group">
+                        <input autocomplete="off" autofocus class="form-control" name="email" placeholder="Email of feedback giver" type="text">
+                    </div>
+                     <!--Submit button-->
+                    <!-- http://getbootstrap.com/docs/4.1/components/buttons/ -->
+                    <button class="btn btn-primary" type="Submit">Submit</button>
+                </form>
             </div>
-        {% endfor %}
-    </div>
+            <div id="emaildisplay_col" class="col-md-6">
+                <table class="table table-striped">
+                    <p></p>
+                <thead>
+                    <th>Requests have already been sent to:</th>
+                </thead>
+
+                <tbody>
+                 <tr>
+                    <td> {% for email_address in email_addresses %}
+                        <div>
+                            {{ email_address["email_address"] }}
+                        </div>
+                    {% endfor %}
+                    </td>
+                </tr>
+            </table>
+        </div>
     <script>
         document.querySelector('form').onsubmit = function(e) {
             e.preventDefault();

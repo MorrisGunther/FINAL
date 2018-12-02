@@ -70,3 +70,15 @@ main tfoot
 .error{
   color: red;
 }
+
+.blocktext{
+    text-align: justify;
+}
+
+table {
+    border: 2px solid grey;
+}
+
+.custom-select{
+    width: 50%;
+}
