@@ -3,9 +3,4 @@
    In der Mail müssen die Zugangsdaten für den Employee stehen:
    - Seine Emailadresse
    - Automatisch generiertes Passwort
-2. HTML ("manager_index.html") bearbeiten, sodass die Email-Adressen und der Status (awaiting / received) in einer Tabelle angeordnet sind
-   (bisher stehen sie einfach untereinander):)
-3. Text für employee_index schreiben:)
 4. Select menus in self-assessment und employee_provide_feedback dünner machen
-5. Wieso ist die Farbe von dem Button in employee_feedback_already_submitted, employee_provide_feedback_success,
-   manager_self_assessment_already_submitted und manager_self_assessment_success anders?:)
