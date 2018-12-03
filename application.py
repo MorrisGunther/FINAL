@@ -370,39 +370,158 @@ def manager_view_report():
                                          feedbackee_id=session['user_id'])
     print(ehappinnessresult)
 
+    mtasksresult_ = []
+    for onemtasksresult in mtasksresult:
+        mtasksresult_.append(onemtasksresult["Q1"])
+        mtasksresult_.append(onemtasksresult["Q2"])
+        mtasksresult_.append(onemtasksresult["Q3"])
+        mtasksresult_.append(onemtasksresult["Q4"])
+        mtasksresult_.append(onemtasksresult["Q5"])
+        mtasksresult_.append(onemtasksresult["Q6"])
+        mtasksresult_.append(onemtasksresult["Q7"])
+    print(mtasksresult_)
+
+    mmanagerresult_ = []
+    for onemmanagerresult in mmanagerresult:
+        mmanagerresult_.append(onemmanagerresult["Q8"])
+        mmanagerresult_.append(onemmanagerresult["Q9"])
+        mmanagerresult_.append(onemmanagerresult["Q10"])
+        mmanagerresult_.append(onemmanagerresult["Q11"])
+        mmanagerresult_.append(onemmanagerresult["Q12"])
+        mmanagerresult_.append(onemmanagerresult["Q13"])
+        mmanagerresult_.append(onemmanagerresult["Q14"])
+        mmanagerresult_.append(onemmanagerresult["Q15"])
+        mmanagerresult_.append(onemmanagerresult["Q16"])
+        mmanagerresult_.append(onemmanagerresult["Q17"])
+    print(mmanagerresult_)
+
+    mvisionresult_ = []
+    for onemvisionresult in mvisionresult:
+        mvisionresult_.append(onemvisionresult["Q18"])
+        mvisionresult_.append(onemvisionresult["Q19"])
+        mvisionresult_.append(onemvisionresult["Q20"])
+        mvisionresult_.append(onemvisionresult["Q21"])
+        mvisionresult_.append(onemvisionresult["Q22"])
+        mvisionresult_.append(onemvisionresult["Q23"])
+        mvisionresult_.append(onemvisionresult["Q24"])
+    print(mvisionresult_)
+
+    mteamresult_ = []
+    for onemteamresult in mteamresult:
+        mteamresult_.append(onemteamresult["Q25"])
+        mteamresult_.append(onemteamresult["Q26"])
+        mteamresult_.append(onemteamresult["Q27"])
+        mteamresult_.append(onemteamresult["Q28"])
+        mteamresult_.append(onemteamresult["Q29"])
+        mteamresult_.append(onemteamresult["Q30"])
+        mteamresult_.append(onemteamresult["Q31"])
+    print(mteamresult_)
+
+    minnovationresult_ = []
+    for oneminnovationresult in minnovationresult:
+        minnovationresult_.append(oneminnovationresult["Q32"])
+        minnovationresult_.append(oneminnovationresult["Q33"])
+        minnovationresult_.append(oneminnovationresult["Q34"])
+        minnovationresult_.append(oneminnovationresult["Q35"])
+        minnovationresult_.append(oneminnovationresult["Q36"])
+        minnovationresult_.append(oneminnovationresult["Q37"])
+        minnovationresult_.append(oneminnovationresult["Q38"])
+    print(minnovationresult_)
+
+    mhappinnessresult_ = []
+    for onemhappinnessresult in mhappinnessresult:
+        mhappinnessresult_.append(onemhappinnessresult["Q39"])
+        mhappinnessresult_.append(onemhappinnessresult["Q40"])
+    print(mhappinnessresult_)
+
+    etasksresult_ = []
+    for oneetasksresult in etasksresult:
+        etasksresult_.append(oneetasksresult["AVG(Q1)"])
+        etasksresult_.append(oneetasksresult["AVG(Q2)"])
+        etasksresult_.append(oneetasksresult["AVG(Q3)"])
+        etasksresult_.append(oneetasksresult["AVG(Q4)"])
+        etasksresult_.append(oneetasksresult["AVG(Q5)"])
+        etasksresult_.append(oneetasksresult["AVG(Q6)"])
+        etasksresult_.append(oneetasksresult["AVG(Q7)"])
+    print(etasksresult_)
+
+    emanagerresult_ = []
+    for oneemanagerresult in emanagerresult:
+        emanagerresult_.append(oneemanagerresult["AVG(Q8)"])
+        emanagerresult_.append(oneemanagerresult["AVG(Q9)"])
+        emanagerresult_.append(oneemanagerresult["AVG(Q10)"])
+        emanagerresult_.append(oneemanagerresult["AVG(Q11)"])
+        emanagerresult_.append(oneemanagerresult["AVG(Q12)"])
+        emanagerresult_.append(oneemanagerresult["AVG(Q13)"])
+        emanagerresult_.append(oneemanagerresult["AVG(Q14)"])
+        emanagerresult_.append(oneemanagerresult["AVG(Q15)"])
+        emanagerresult_.append(oneemanagerresult["AVG(Q16)"])
+        emanagerresult_.append(oneemanagerresult["AVG(Q17)"])
+    print(emanagerresult_)
+
+    evisionresult_ = []
+    for oneevisionresult in evisionresult:
+        evisionresult_.append(oneevisionresult["AVG(Q18)"])
+        evisionresult_.append(oneevisionresult["AVG(Q19)"])
+        evisionresult_.append(oneevisionresult["AVG(Q20)"])
+        evisionresult_.append(oneevisionresult["AVG(Q21)"])
+        evisionresult_.append(oneevisionresult["AVG(Q22)"])
+        evisionresult_.append(oneevisionresult["AVG(Q23)"])
+        evisionresult_.append(oneevisionresult["AVG(Q24)"])
+    print(evisionresult_)
+
+    eteamresult_ = []
+    for oneeteamresult in eteamresult:
+        eteamresult_.append(oneeteamresult["AVG(Q25)"])
+        eteamresult_.append(oneeteamresult["AVG(Q26)"])
+        eteamresult_.append(oneeteamresult["AVG(Q27)"])
+        eteamresult_.append(oneeteamresult["AVG(Q28)"])
+        eteamresult_.append(oneeteamresult["AVG(Q29)"])
+        eteamresult_.append(oneeteamresult["AVG(Q30)"])
+        eteamresult_.append(oneeteamresult["AVG(Q31)"])
+    print(eteamresult_)
+
+    einnovationresult_ = []
+    for oneeinnovationresult in einnovationresult:
+        einnovationresult_.append(oneeinnovationresult["AVG(Q32)"])
+        einnovationresult_.append(oneeinnovationresult["AVG(Q33)"])
+        einnovationresult_.append(oneeinnovationresult["AVG(Q34)"])
+        einnovationresult_.append(oneeinnovationresult["AVG(Q35)"])
+        einnovationresult_.append(oneeinnovationresult["AVG(Q36)"])
+        einnovationresult_.append(oneeinnovationresult["AVG(Q37)"])
+        einnovationresult_.append(oneeinnovationresult["AVG(Q38)"])
+    print(einnovationresult_)
+
     ehappinnessresult_ = []
     for oneehappinessresult in ehappinnessresult:
         ehappinnessresult_.append(oneehappinessresult["AVG(Q39)"])
         ehappinnessresult_.append(oneehappinessresult["AVG(Q40)"])
-        ehappinnessresult_.append(oneehappinessresult["AVG(Q40)"])
     print(ehappinnessresult_)
 
-    etasksresult_ = []
-    for oneetasksresult in etasksresult:
-        etasksresult_.append(oneetasksresult["AVG(Q)"])
-        etasksresult_.append(oneetasksresult["AVG(Q40)"])
-        etasksresult_.append(oneetasksresult["AVG(Q40)"])
-        etasksresult_.append(oneetasksresult["AVG(Q40)"])
-    print(ehappinnessresult_)
 
-    avgmtasksresult = float(sum(mtasksresult)) / len(mtasksresult)
-    avgmmanagerresult = float(sum(mmanagerresult)) / len(mmanagerresult)
-    avgmvisionresult = float(sum(mvisionresult)) / len(mvisionresult)
-    avgmteamresult = float(sum(mteamresult)) / len(mteamresult)
-    avgminnovationresult = float(sum(minnovationresult)) / len(minnovationresult)
-    avgmhappinnessresult = float(sum(mhappinnessresult)) / len(mhappinnessresult)
+
+    avgmtasksresult = float(sum(mtasksresult_)) / len(mtasksresult_)
+    avgmmanagerresult = float(sum(mmanagerresult_)) / len(mmanagerresult_)
+    avgmvisionresult = float(sum(mvisionresult_)) / len(mvisionresult_)
+    avgmteamresult = float(sum(mteamresult_)) / len(mteamresult_)
+    avgminnovationresult = float(sum(minnovationresult_)) / len(minnovationresult_)
+    avgmhappinnessresult = float(sum(mhappinnessresult_)) / len(mhappinnessresult_)
     print(avgmhappinnessresult)
 
 
-    avgetasksresult = float(sum(etasksresult)) / len(etasksresult)
-    avgemanagerresult = float(sum(emanagerresult)) / len(emanagerresult)
-    avgevisionresult = float(sum(evisionresult)) / len(evisionresult)
-    avgeteamresult = float(sum(eteamresult)) / len(eteamresult)
-    avgeinnovationresult = float(sum(einnovationresult)) / len(evisionresult)
-    avgehappinnessresult = float(sum(ehappinnessresult)) / len(ehappinnessresult)
+    avgetasksresult = float(sum(etasksresult_)) / len(etasksresult_)
+    avgemanagerresult = float(sum(emanagerresult_)) / len(emanagerresult_)
+    avgevisionresult = float(sum(evisionresult_)) / len(evisionresult_)
+    avgeteamresult = float(sum(eteamresult_)) / len(eteamresult_)
+    avgeinnovationresult = float(sum(einnovationresult_)) / len(evisionresult_)
+    avgehappinnessresult = float(sum(ehappinnessresult_)) / len(ehappinnessresult_)
 
 
-    return render_template("manager_view_report.html", manager_name=manager_name, avgmtasksresult=avgmtasksresult, avgmmanagerresult=avgmmanagerresult)
+    return render_template("manager_view_report.html", manager_name=manager_name, avgmtasksresult=avgmtasksresult,\
+    avgmmanagerresult=avgmmanagerresult, avgmvisionresult=avgmvisionresult, avgmteamresult=avgmteamresult, \
+    avgminnovationresult=avgminnovationresult, avgmhappinnessresult=avgmhappinnessresult,\
+    avgetasksresult=avgetasksresult, avgemanagerresult=avgemanagerresult, avgevisionresult=avgevisionresult,\
+    avgeteamresult=avgeteamresult, avgeinnovationresult=avgeinnovationresult, avgehappinnessresult=avgehappinnessresult)
 
 
 @app.route("/employee_index")
