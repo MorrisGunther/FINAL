@@ -13,6 +13,8 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from helpers import manager_apology, employee_apology, login_required
 
+import csv
+
 # Configure application
 app = Flask(__name__)
 
@@ -516,6 +518,10 @@ def manager_view_report():
     avgeinnovationresult = float(sum(einnovationresult_)) / len(evisionresult_)
     avgehappinnessresult = float(sum(ehappinnessresult_)) / len(ehappinnessresult_)
 
+    with open('categories_file.csv', mode='w') as categories_file:
+        categories_writer = csv.writer(categories_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+        categories_writer.writerow([avgetasksresult, avgemanagerresult, avgevisionresult, avgeteamresult, avgeinnovationresult, avgehappinnessresult])
 
     return render_template("manager_view_report.html", manager_name=manager_name, avgmtasksresult=avgmtasksresult,\
     avgmmanagerresult=avgmmanagerresult, avgmvisionresult=avgmvisionresult, avgmteamresult=avgmteamresult, \
