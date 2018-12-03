@@ -4,6 +4,7 @@ import smtplib
 from random import choice
 from string import ascii_uppercase, digits
 from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from cs50 import SQL
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
 from flask_session import Session
@@ -196,7 +197,8 @@ def manager_request_feedback():
         if not result:
             return manager_apology("A request has already been sent to this email address")
 
-        # Store the content of the email (i.e. login credentials) which will be sent to the requested employee in the variable "message"
+        # Store the content of the email (i.e. login credentials) which will be sent to the requested employee in the variables part1, part2
+        # And part3
         a = "Dear Sir or Madam, \n\n this is a request to provide feedback for Mr/Mrs "
         b = db.execute("SELECT manager_name FROM users WHERE id=:id_", id_=session['user_id'])
         b_ = b[0]["manager_name"]
@@ -205,16 +207,20 @@ def manager_request_feedback():
         e = "\n Password: "
         f = random_password_for_requested_employee
         g = "\n\n"
-        #TODO#h = u'<a href="www.google.com">abc</a>','html'
-        h = "XXXlink"
-        i = "\n\n Sincerely, \n Your ANMO Team"
-        message_ = [a, b_, c, d, e, f, g, h, i]
-        message = "".join(message_)
+        part1__ = [a, b_, c, d, e, f, g]
+        part1_ = "".join(part1__)
+        part1 = MIMEText(part1_, 'plain')
+        part2 = MIMEText(u'<a href="http://ide50-morrisgunther.cs50.io:8080/">XXXwww.anmoleadership.com</a>','html')
+        part3_ = "\n\n Sincerely, \n Your ANMO Team"
+        part3 = MIMEText(part3_, 'plain')
 
         # Store the from address, to address, subject as well as gmail account and password of sender in corresponding variables
         sent_from = 'cs50.anmo@gmail.com'
         to = request.form.get("email")
-        msg = MIMEText(message)
+        msg = MIMEMultipart('multipart')
+        msg.attach(part1)
+        msg.attach(part2)
+        msg.attach(part3)
         msg['Subject'] = 'Feedback request for your manager'
         msg['From'] = sent_from
         msg['To'] = to
