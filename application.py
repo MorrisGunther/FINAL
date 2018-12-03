@@ -296,58 +296,23 @@ def manager_self_assessment():
     # User reached route via POST
     if request.method == "POST":
 
-        # Store the values (answers) of the self-assessment form in corresponding variables
-        Q1 = request.form.get("Q1")
-        Q2 = request.form.get("Q2")
-        Q3 = request.form.get("Q3")
-        Q4 = request.form.get("Q4")
-        Q5 = request.form.get("Q5")
-        Q6 = request.form.get("Q6")
-        Q7 = request.form.get("Q7")
-        Q8 = request.form.get("Q8")
-        Q9 = request.form.get("Q9")
-        Q10 = request.form.get("Q10")
-        Q11 = request.form.get("Q11")
-        Q12 = request.form.get("Q12")
-        Q13 = request.form.get("Q13")
-        Q14 = request.form.get("Q14")
-        Q15 = request.form.get("Q15")
-        Q16 = request.form.get("Q16")
-        Q17 = request.form.get("Q17")
-        Q18 = request.form.get("Q18")
-        Q19 = request.form.get("Q19")
-        Q20 = request.form.get("Q20")
-        Q21 = request.form.get("Q21")
-        Q22 = request.form.get("Q22")
-        Q23 = request.form.get("Q23")
-        Q24 = request.form.get("Q24")
-        Q25 = request.form.get("Q25")
-        Q26 = request.form.get("Q26")
-        Q27 = request.form.get("Q27")
-        Q28 = request.form.get("Q28")
-        Q29 = request.form.get("Q29")
-        Q30 = request.form.get("Q30")
-        Q31 = request.form.get("Q31")
-        Q32 = request.form.get("Q32")
-        Q33 = request.form.get("Q33")
-        Q34 = request.form.get("Q34")
-        Q35 = request.form.get("Q35")
-        Q36 = request.form.get("Q36")
-        Q37 = request.form.get("Q37")
-        Q38 = request.form.get("Q38")
-        Q39 = request.form.get("Q39")
-        Q40 = request.form.get("Q40")
-
         # Insert the values of the self-assessment form into the table "surveyanswers"
         db.execute("INSERT INTO surveyanswers(feedbacker_id, feedbackee_id, Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q9, Q10, Q11, Q12, Q13, Q14, Q15, \
                    Q16, Q17, Q18, Q19, Q20, Q21, Q22, Q23, Q24, Q25, Q26, Q27, Q28, Q29, Q30, Q31, Q32, Q33, Q34, Q35, Q36, \
                    Q37, Q38, Q39, Q40) VALUES (:feedbacker_id, :feedbackee_id, :Q1, :Q2, :Q3, :Q4, :Q5, :Q6, :Q7, :Q8, :Q9, :Q10, \
                    :Q11, :Q12, :Q13, :Q14, :Q15, :Q16, :Q17, :Q18, :Q19, :Q20, :Q21, :Q22, :Q23, :Q24, :Q25, :Q26, :Q27, \
                    :Q28, :Q29, :Q30, :Q31, :Q32, :Q33, :Q34, :Q35, :Q36, :Q37, :Q38, :Q39, :Q40)",
-                   feedbacker_id=session['user_id'], feedbackee_id=session['user_id'], Q1=Q1, Q2=Q2, Q3=Q3, Q4=Q4, Q5=Q5, Q6=Q6, Q7=Q7, Q8=Q8,
-                   Q9=Q9, Q10=Q10, Q11=Q11, Q12=Q12, Q13=Q13, Q14=Q14, Q15=Q15, Q16=Q16, Q17=Q17, Q18=Q18, Q19=Q19, Q20=Q20, Q21=Q21, Q22=Q22,
-                   Q23=Q23, Q24=Q24, Q25=Q25, Q26=Q26, Q27=Q27, Q28=Q28, Q29=Q29, Q30=Q30, Q31=Q31, Q32=Q32, Q33=Q33, Q34=Q34, Q35=Q35,
-                   Q36=Q36, Q37=Q37, Q38=Q38, Q39=Q39, Q40=Q40)
+                   feedbacker_id=session['user_id'], feedbackee_id=session['user_id'], Q1=request.form.get("Q1"), Q2=request.form.get("Q2"),
+                   Q3=request.form.get("Q3"), Q4=request.form.get("Q4"), Q5=request.form.get("Q5"), Q6=request.form.get("Q6"),
+                   Q7=request.form.get("Q7"), Q8=request.form.get("Q8"), Q9=request.form.get("Q9"), Q10=request.form.get("Q10"),
+                   Q11=request.form.get("Q11"), Q12=request.form.get("Q12"), Q13=request.form.get("Q13"), Q14=request.form.get("Q14"),
+                   Q15=request.form.get("Q15"), Q16=request.form.get("Q16"), Q17=request.form.get("Q17"), Q18=request.form.get("Q18"),
+                   Q19=request.form.get("Q19"), Q20=request.form.get("Q20"), Q21=request.form.get("Q21"), Q22=request.form.get("Q22"),
+                   Q23=request.form.get("Q23"), Q24=request.form.get("Q24"), Q25=request.form.get("Q25"), Q26=request.form.get("Q26"),
+                   Q27=request.form.get("Q27"), Q28=request.form.get("Q28"), Q29=request.form.get("Q29"), Q30=request.form.get("Q30"),
+                   Q31=request.form.get("Q31"), Q32=request.form.get("Q32"), Q33=request.form.get("Q33"), Q34=request.form.get("Q34"),
+                   Q35=request.form.get("Q35"), Q36=request.form.get("Q36"), Q37=request.form.get("Q37"), Q38=request.form.get("Q38"),
+                   Q39=request.form.get("Q39"), Q40=request.form.get("Q40"))
 
         # Render manager self-assessment form
         return render_template("manager_self_assessment_success.html")
@@ -392,48 +357,6 @@ def employee_provide_feedback():
     # User reached route via POST
     if request.method == "POST":
 
-        # Store the values (answers) of the feedback form in corresponding variables
-        Q1 = request.form.get("Q1")
-        Q2 = request.form.get("Q2")
-        Q3 = request.form.get("Q3")
-        Q4 = request.form.get("Q4")
-        Q5 = request.form.get("Q5")
-        Q6 = request.form.get("Q6")
-        Q7 = request.form.get("Q7")
-        Q8 = request.form.get("Q8")
-        Q9 = request.form.get("Q9")
-        Q10 = request.form.get("Q10")
-        Q11 = request.form.get("Q11")
-        Q12 = request.form.get("Q12")
-        Q13 = request.form.get("Q13")
-        Q14 = request.form.get("Q14")
-        Q15 = request.form.get("Q15")
-        Q16 = request.form.get("Q16")
-        Q17 = request.form.get("Q17")
-        Q18 = request.form.get("Q18")
-        Q19 = request.form.get("Q19")
-        Q20 = request.form.get("Q20")
-        Q21 = request.form.get("Q21")
-        Q22 = request.form.get("Q22")
-        Q23 = request.form.get("Q23")
-        Q24 = request.form.get("Q24")
-        Q25 = request.form.get("Q25")
-        Q26 = request.form.get("Q26")
-        Q27 = request.form.get("Q27")
-        Q28 = request.form.get("Q28")
-        Q29 = request.form.get("Q29")
-        Q30 = request.form.get("Q30")
-        Q31 = request.form.get("Q31")
-        Q32 = request.form.get("Q32")
-        Q33 = request.form.get("Q33")
-        Q34 = request.form.get("Q34")
-        Q35 = request.form.get("Q35")
-        Q36 = request.form.get("Q36")
-        Q37 = request.form.get("Q37")
-        Q38 = request.form.get("Q38")
-        Q39 = request.form.get("Q39")
-        Q40 = request.form.get("Q40")
-
         # Store the id of the manager to be assessed in the variable "feedbackee_id_"
         feedbackee_id = db.execute("SELECT id_of_manager_to_be_assessed FROM users WHERE id=:id_", id_=session['user_id'])
         feedbackee_id_ = feedbackee_id[0]["id_of_manager_to_be_assessed"]
@@ -444,10 +367,17 @@ def employee_provide_feedback():
                    Q33, Q34, Q35, Q36, Q37, Q38, Q39, Q40) VALUES (:feedbacker_id, :feedbackee_id, :Q1, :Q2, :Q3, :Q4, :Q5, \
                    :Q6, :Q7, :Q8, :Q9, :Q10, :Q11, :Q12, :Q13, :Q14, :Q15, :Q16, :Q17, :Q18, :Q19, :Q20, :Q21, :Q22, :Q23, \
                    :Q24, :Q25, :Q26, :Q27, :Q28, :Q29, :Q30, :Q31, :Q32, :Q33, :Q34, :Q35, :Q36, :Q37, :Q38, :Q39, :Q40)",
-                   feedbacker_id=session['user_id'], feedbackee_id=feedbackee_id_, Q1=Q1, Q2=Q2, Q3=Q3, Q4=Q4, Q5=Q5, Q6=Q6,
-                   Q7=Q7, Q8=Q8, Q9=Q9, Q10=Q10, Q11=Q11, Q12=Q12, Q13=Q13, Q14=Q14, Q15=Q15, Q16=Q16, Q17=Q17, Q18=Q18, Q19=Q19,
-                   Q20=Q20, Q21=Q21, Q22=Q22, Q23=Q23, Q24=Q24, Q25=Q25, Q26=Q26, Q27=Q27, Q28=Q28, Q29=Q29, Q30=Q30, Q31=Q31,
-                   Q32=Q32, Q33=Q33, Q34=Q34, Q35=Q35, Q36=Q36, Q37=Q37, Q38=Q38, Q39=Q39, Q40=Q40)
+                   feedbacker_id=session['user_id'], feedbackee_id=feedbackee_id_, Q1=request.form.get("Q1"), Q2=request.form.get("Q2"),
+                   Q3=request.form.get("Q3"), Q4=request.form.get("Q4"), Q5=request.form.get("Q5"), Q6=request.form.get("Q6"),
+                   Q7=request.form.get("Q7"), Q8=request.form.get("Q8"), Q9=request.form.get("Q9"), Q10=request.form.get("Q10"),
+                   Q11=request.form.get("Q11"), Q12=request.form.get("Q12"), Q13=request.form.get("Q13"), Q14=request.form.get("Q14"),
+                   Q15=request.form.get("Q15"), Q16=request.form.get("Q16"), Q17=request.form.get("Q17"), Q18=request.form.get("Q18"),
+                   Q19=request.form.get("Q19"), Q20=request.form.get("Q20"), Q21=request.form.get("Q21"), Q22=request.form.get("Q22"),
+                   Q23=request.form.get("Q23"), Q24=request.form.get("Q24"), Q25=request.form.get("Q25"), Q26=request.form.get("Q26"),
+                   Q27=request.form.get("Q27"), Q28=request.form.get("Q28"), Q29=request.form.get("Q29"), Q30=request.form.get("Q30"),
+                   Q31=request.form.get("Q31"), Q32=request.form.get("Q32"), Q33=request.form.get("Q33"), Q34=request.form.get("Q34"),
+                   Q35=request.form.get("Q35"), Q36=request.form.get("Q36"), Q37=request.form.get("Q37"), Q38=request.form.get("Q38"),
+                   Q39=request.form.get("Q39"), Q40=request.form.get("Q40"))
 
         # Render employee provide feedback success form
         return render_template("employee_provide_feedback_success.html")
@@ -455,7 +385,7 @@ def employee_provide_feedback():
     # User reached route via GET
     else:
 
-        #
+        # Query database whether the logged-in user has already submitted feedback
         feedbacker_id_ = db.execute("SELECT feedbacker_id FROM surveyanswers WHERE feedbacker_id=:feedbacker_id",
                                     feedbacker_id=session['user_id'])
 
