@@ -314,6 +314,19 @@ def manager_self_assessment():
                    Q35=request.form.get("Q35"), Q36=request.form.get("Q36"), Q37=request.form.get("Q37"), Q38=request.form.get("Q38"),
                    Q39=request.form.get("Q39"), Q40=request.form.get("Q40"))
 
+        # Ensure all questions have been answered
+        if not request.form.get("Q1") or not request.form.get("Q2") or not request.form.get("Q3") or not request.form.get("Q4") \
+        or not request.form.get("Q5") or not request.form.get("Q6") or not request.form.get("Q7") or not request.form.get("Q8") \
+        or not request.form.get("Q9") or not request.form.get("Q10") or not request.form.get("Q11") or not request.form.get("Q12") \
+        or not request.form.get("Q13") or not request.form.get("Q14") or not request.form.get("Q15") or not request.form.get("Q16") \
+        or not request.form.get("Q17") or not request.form.get("Q18") or not request.form.get("Q19") or not request.form.get("Q20") \
+        or not request.form.get("Q21") or not request.form.get("Q22") or not request.form.get("Q23") or not request.form.get("Q24") \
+        or not request.form.get("Q25") or not request.form.get("Q26") or not request.form.get("Q27") or not request.form.get("Q28") \
+        or not request.form.get("Q29") or not request.form.get("Q30") or not request.form.get("Q31") or not request.form.get("Q32") \
+        or not request.form.get("Q33") or not request.form.get("Q34") or not request.form.get("Q35") or not request.form.get("Q36") \
+        or not request.form.get("Q37") or not request.form.get("Q38") or not request.form.get("Q39") or not request.form.get("Q49"):
+            return manager_apology("Please answer all questions!")
+
         # Render manager self-assessment form
         return render_template("manager_self_assessment_success.html")
 
@@ -378,6 +391,19 @@ def employee_provide_feedback():
                    Q31=request.form.get("Q31"), Q32=request.form.get("Q32"), Q33=request.form.get("Q33"), Q34=request.form.get("Q34"),
                    Q35=request.form.get("Q35"), Q36=request.form.get("Q36"), Q37=request.form.get("Q37"), Q38=request.form.get("Q38"),
                    Q39=request.form.get("Q39"), Q40=request.form.get("Q40"))
+
+        # Ensure all questions have been answered
+        if not request.form.get("Q1") or not request.form.get("Q2") or not request.form.get("Q3") or not request.form.get("Q4") \
+        or not request.form.get("Q5") or not request.form.get("Q6") or not request.form.get("Q7") or not request.form.get("Q8") \
+        or not request.form.get("Q9") or not request.form.get("Q10") or not request.form.get("Q11") or not request.form.get("Q12") \
+        or not request.form.get("Q13") or not request.form.get("Q14") or not request.form.get("Q15") or not request.form.get("Q16") \
+        or not request.form.get("Q17") or not request.form.get("Q18") or not request.form.get("Q19") or not request.form.get("Q20") \
+        or not request.form.get("Q21") or not request.form.get("Q22") or not request.form.get("Q23") or not request.form.get("Q24") \
+        or not request.form.get("Q25") or not request.form.get("Q26") or not request.form.get("Q27") or not request.form.get("Q28") \
+        or not request.form.get("Q29") or not request.form.get("Q30") or not request.form.get("Q31") or not request.form.get("Q32") \
+        or not request.form.get("Q33") or not request.form.get("Q34") or not request.form.get("Q35") or not request.form.get("Q36") \
+        or not request.form.get("Q37") or not request.form.get("Q38") or not request.form.get("Q39") or not request.form.get("Q49"):
+            return manager_apology("Please answer all questions!")
 
         # Render employee provide feedback success form
         return render_template("employee_provide_feedback_success.html")
