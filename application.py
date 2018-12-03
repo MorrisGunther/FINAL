@@ -241,7 +241,6 @@ def manager_request_feedback():
         i = "\n\n Sincerely, \n Your ANMO Team"
         message_ = [a, b_, c, d, e, f, g, h, i]
         message = "".join(message_)
-
         sent_from = 'cs50.anmo@gmail.com'
         to  = request.form.get("email")
         msg = MIMEText(message)
@@ -340,7 +339,70 @@ def manager_view_report():
 
     manager_name = db.execute("SELECT manager_name FROM users WHERE id=:id_", id_=session['user_id'])
     manager_name = manager_name[0]["manager_name"]
-    return render_template("manager_view_report.html", manager_name=manager_name)
+
+
+    mtasksresult = db.execute("SELECT Q1, Q2, Q3, Q4, Q5, Q6, Q7 FROM surveyanswers WHERE feedbacker_id=:feedbacker_id",
+                                         feedbacker_id=session['user_id'])
+    mmanagerresult = db.execute("SELECT Q8, Q9, Q10, Q11, Q12, Q13, Q14, Q15, Q16, Q17 FROM surveyanswers WHERE feedbacker_id=:feedbacker_id",
+                                         feedbacker_id=session['user_id'])
+    mvisionresult = db.execute("SELECT Q18, Q19, Q20, Q21, Q22, Q23, Q24 FROM surveyanswers WHERE feedbacker_id=:feedbacker_id",
+                                         feedbacker_id=session['user_id'])
+    mteamresult = db.execute("SELECT Q25, Q26, Q27, Q28, Q29, Q30, Q31 FROM surveyanswers WHERE feedbacker_id=:feedbacker_id",
+                                         feedbacker_id=session['user_id'])
+    minnovationresult = db.execute("SELECT Q32, Q33, Q34, Q35, Q36, Q37, Q38 FROM surveyanswers WHERE feedbacker_id=:feedbacker_id",
+                                         feedbacker_id=session['user_id'])
+    mhappinnessresult = db.execute("SELECT Q39, Q40 FROM surveyanswers WHERE feedbacker_id=:feedbacker_id",
+                                         feedbacker_id=session['user_id'])
+
+    print(mhappinnessresult)
+
+    etasksresult = db.execute("SELECT AVG(Q1), AVG(Q2), AVG(Q3), AVG(Q4), AVG(Q5), AVG(Q6), AVG(Q7) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
+                                         feedbackee_id=session['user_id'])
+    emanagerresult = db.execute("SELECT AVG(Q8), AVG(Q9), AVG(Q10), AVG(Q11), AVG(Q12), AVG(Q13), AVG(Q14), AVG(Q15), AVG(Q16), AVG(Q17) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
+                                         feedbackee_id=session['user_id'])
+    evisionresult = db.execute("SELECT AVG(Q18), AVG(Q19), AVG(Q20), AVG(Q21), AVG(Q22), AVG(Q23), AVG(Q24) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
+                                         feedbackee_id=session['user_id'])
+    eteamresult = db.execute("SELECT AVG(Q25), AVG(Q26), AVG(Q27), AVG(Q28), AVG(Q29), AVG(Q30), AVG(Q31) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
+                                         feedbackee_id=session['user_id'])
+    einnovationresult = db.execute("SELECT AVG(Q32), AVG(Q33), AVG(Q34), AVG(Q35), AVG(Q36), AVG(Q37), AVG(Q38) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
+                                         feedbackee_id=session['user_id'])
+    ehappinnessresult = db.execute("SELECT AVG(Q39), AVG(Q40) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
+                                         feedbackee_id=session['user_id'])
+    print(ehappinnessresult)
+
+    ehappinnessresult_ = []
+    for oneehappinessresult in ehappinnessresult:
+        ehappinnessresult_.append(oneehappinessresult["AVG(Q39)"])
+        ehappinnessresult_.append(oneehappinessresult["AVG(Q40)"])
+        ehappinnessresult_.append(oneehappinessresult["AVG(Q40)"])
+    print(ehappinnessresult_)
+
+    etasksresult_ = []
+    for oneetasksresult in etasksresult:
+        etasksresult_.append(oneetasksresult["AVG(Q)"])
+        etasksresult_.append(oneetasksresult["AVG(Q40)"])
+        etasksresult_.append(oneetasksresult["AVG(Q40)"])
+        etasksresult_.append(oneetasksresult["AVG(Q40)"])
+    print(ehappinnessresult_)
+
+    avgmtasksresult = float(sum(mtasksresult)) / len(mtasksresult)
+    avgmmanagerresult = float(sum(mmanagerresult)) / len(mmanagerresult)
+    avgmvisionresult = float(sum(mvisionresult)) / len(mvisionresult)
+    avgmteamresult = float(sum(mteamresult)) / len(mteamresult)
+    avgminnovationresult = float(sum(minnovationresult)) / len(minnovationresult)
+    avgmhappinnessresult = float(sum(mhappinnessresult)) / len(mhappinnessresult)
+    print(avgmhappinnessresult)
+
+
+    avgetasksresult = float(sum(etasksresult)) / len(etasksresult)
+    avgemanagerresult = float(sum(emanagerresult)) / len(emanagerresult)
+    avgevisionresult = float(sum(evisionresult)) / len(evisionresult)
+    avgeteamresult = float(sum(eteamresult)) / len(eteamresult)
+    avgeinnovationresult = float(sum(einnovationresult)) / len(evisionresult)
+    avgehappinnessresult = float(sum(ehappinnessresult)) / len(ehappinnessresult)
+
+
+    return render_template("manager_view_report.html", manager_name=manager_name, avgmtasksresult=avgmtasksresult, avgmmanagerresult=avgmmanagerresult)
 
 
 @app.route("/employee_index")
