@@ -21,10 +21,10 @@ function compileData(error, categoryData, scoreData) {
         categoryMap[categoryObj.categoryID] = categoryObj.category;
     });
 
-    console.log(categoryMap)
+    console.log(categoryMap);
 
-    var getscores = [];
-    for (var i=0; i < scoreData.length ; i++)
+    let getscores = [];
+    for (let i=0; i < scoreData.length ; i++)
         getscores.push(scoreData[i]["score"]);
 
     console.log("Scores", getscores);
@@ -45,6 +45,9 @@ function createVis(parentElement, countData, categoryMap, scoreData) {
     // Configure margins
     let margin = { top: 20, right: 20, bottom: 90, left: 30 };
 
+    console.log("category map", categoryMap);
+    console.log("countData", countData);
+
     console.log($("#" + parentElement).width())
 
     // Cofigure height and width of the visualization
@@ -60,6 +63,8 @@ function createVis(parentElement, countData, categoryMap, scoreData) {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+    console.log(height + margin.top + margin.bottom)
+
     // Create scales
     // Use ordinal scale since the x axis isn't numerical
     let xOrdinalScale = d3.scaleBand()
@@ -69,7 +74,7 @@ function createVis(parentElement, countData, categoryMap, scoreData) {
 
     let yScale = d3.scaleLinear()
         .range([height - margin.bottom, margin.top]) // we could also set this to height and 0, but would need to translate axis
-        .domain([0, d3.max(countData, function(datum){ return datum.value})]);
+        .domain([0, d3.max(countData, function(datum){ return datum})]);
 
     // Now set up the axis
     let barYAxis = d3.axisLeft()
@@ -94,6 +99,7 @@ function createVis(parentElement, countData, categoryMap, scoreData) {
         .attr("transform", "rotate(75)") // allows us to rotate the text
         .style("text-anchor", "start");;
 
+
     // Draw the bars
     let bars = svg.selectAll("rect")
         .data(countData)
@@ -103,10 +109,10 @@ function createVis(parentElement, countData, categoryMap, scoreData) {
         .attr("fill", "red")
         .attr("width", xOrdinalScale.bandwidth())
         .attr("height", function(datum) {
-            return yScale(0) - yScale(datum.value);
+            return yScale(0) - yScale(datum);
         })
         .attr("y", function(datum){
-            return yScale(datum.value);
+            return yScale(datum);
         })
         .attr("x", function(datum){
             return xOrdinalScale(categoryMap[datum.key]);
@@ -114,6 +120,7 @@ function createVis(parentElement, countData, categoryMap, scoreData) {
         .on("click", function(datum){
             getCategoryInfo(categoryMap[datum.key], datum.key, scoreData);
         });
+
 
 }
 
