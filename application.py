@@ -518,10 +518,27 @@ def manager_view_report():
     avgeinnovationresult = float(sum(einnovationresult_)) / len(evisionresult_)
     avgehappinnessresult = float(sum(ehappinnessresult_)) / len(ehappinnessresult_)
 
-    with open('categories_file.csv', mode='w') as categories_file:
+    with open('static/c.csv', mode='w') as categories_file:
         categories_writer = csv.writer(categories_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
-        categories_writer.writerow([avgetasksresult, avgemanagerresult, avgevisionresult, avgeteamresult, avgeinnovationresult, avgehappinnessresult])
+        categories_writer.writerow(['categoryID','category'])
+        categories_writer.writerow(['1','avgetasksresult'])
+        categories_writer.writerow(['2','avgemanagerresult'])
+        categories_writer.writerow(['3','avgevisionresult'])
+        categories_writer.writerow(['4','avgeteamresult'])
+        categories_writer.writerow(['5','avgeinnovationresult'])
+        categories_writer.writerow(['6','avgehappinnessresult'])
+
+    with open('static/s.csv', mode='w') as scores_file:
+        scores_writer = csv.writer(scores_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+        scores_writer.writerow(['scoreID','score','categoryID'])
+        scores_writer.writerow(['1',avgetasksresult,'1'])
+        scores_writer.writerow(['2',avgemanagerresult,'2'])
+        scores_writer.writerow(['3',avgevisionresult,'3'])
+        scores_writer.writerow(['4',avgeteamresult,'4'])
+        scores_writer.writerow(['5',avgeinnovationresult,'5'])
+        scores_writer.writerow(['6',avgehappinnessresult,'6'])
 
     return render_template("manager_view_report.html", manager_name=manager_name, avgmtasksresult=avgmtasksresult,\
     avgmmanagerresult=avgmmanagerresult, avgmvisionresult=avgmvisionresult, avgmteamresult=avgmteamresult, \
