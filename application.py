@@ -374,6 +374,22 @@ def manager_view_report():
 
     etasksresult = db.execute("SELECT AVG(Q1), AVG(Q2), AVG(Q3), AVG(Q4), AVG(Q5), AVG(Q6), AVG(Q7) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
                                          feedbackee_id=session['user_id'])
+
+    Q1 = db.execute("SELECT AVG(Q1) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
+                                         feedbackee_id=session['user_id'])
+    Q1 = Q1[0]
+
+    Q2 = db.execute("SELECT AVG(Q2) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
+                                         feedbackee_id=session['user_id'])
+    Q3 = db.execute("SELECT AVG(Q3) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
+                                         feedbackee_id=session['user_id'])
+    Q4 = db.execute("SELECT AVG(Q4) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
+                                         feedbackee_id=session['user_id'])
+    Q5 = db.execute("SELECT AVG(Q5) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
+                                         feedbackee_id=session['user_id'])
+    Q6 = db.execute("SELECT AVG(Q6) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
+                                         feedbackee_id=session['user_id'])
+
     emanagerresult = db.execute("SELECT AVG(Q8), AVG(Q9), AVG(Q10), AVG(Q11), AVG(Q12), AVG(Q13), AVG(Q14), AVG(Q15), AVG(Q16), AVG(Q17) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
                                          feedbackee_id=session['user_id'])
     evisionresult = db.execute("SELECT AVG(Q18), AVG(Q19), AVG(Q20), AVG(Q21), AVG(Q22), AVG(Q23), AVG(Q24) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
@@ -516,23 +532,23 @@ def manager_view_report():
 
 
 
-    avgmtasksresult = float(sum(mtasksresult_)) / len(mtasksresult_)
-    avgmmanagerresult = float(sum(mmanagerresult_)) / len(mmanagerresult_)
-    avgmvisionresult = float(sum(mvisionresult_)) / len(mvisionresult_)
-    avgmteamresult = float(sum(mteamresult_)) / len(mteamresult_)
-    avgminnovationresult = float(sum(minnovationresult_)) / len(minnovationresult_)
-    avgmhappinnessresult = float(sum(mhappinnessresult_)) / len(mhappinnessresult_)
+    avgmtasksresult = round(float(sum(mtasksresult_)) / len(mtasksresult_), 2)
+    avgmmanagerresult = round(float(sum(mmanagerresult_)) / len(mmanagerresult_), 2)
+    avgmvisionresult = round(float(sum(mvisionresult_)) / len(mvisionresult_), 2)
+    avgmteamresult = round(float(sum(mteamresult_)) / len(mteamresult_), 2)
+    avgminnovationresult = round(float(sum(minnovationresult_)) / len(minnovationresult_), 2)
+    avgmhappinnessresult = round(float(sum(mhappinnessresult_)) / len(mhappinnessresult_), 2)
     print(avgmhappinnessresult)
 
 
-    avgetasksresult = float(sum(etasksresult_)) / len(etasksresult_)
-    avgemanagerresult = float(sum(emanagerresult_)) / len(emanagerresult_)
-    avgevisionresult = float(sum(evisionresult_)) / len(evisionresult_)
-    avgeteamresult = float(sum(eteamresult_)) / len(eteamresult_)
-    avgeinnovationresult = float(sum(einnovationresult_)) / len(evisionresult_)
-    avgehappinnessresult = float(sum(ehappinnessresult_)) / len(ehappinnessresult_)
+    avgetasksresult = round(float(sum(etasksresult_)) / len(etasksresult_), 2)
+    avgemanagerresult = round(float(sum(emanagerresult_)) / len(emanagerresult_), 2)
+    avgevisionresult = round(float(sum(evisionresult_)) / len(evisionresult_), 2)
+    avgeteamresult = round(float(sum(eteamresult_)) / len(eteamresult_), 2)
+    avgeinnovationresult = round(float(sum(einnovationresult_)) / len(evisionresult_), 2)
+    avgehappinnessresult = round(float(sum(ehappinnessresult_)) / len(ehappinnessresult_), 2)
 
-    overallscore = avgetasksresult + avgemanagerresult + avgevisionresult + avgeteamresult + avgeinnovationresult + avgehappinnessresult
+    overallscore = round((avgetasksresult + avgemanagerresult + avgevisionresult + avgeteamresult + avgeinnovationresult + avgehappinnessresult)/6, 2)
 
     with open('static/c.csv', mode='w') as categories_file:
         categories_writer = csv.writer(categories_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
@@ -561,7 +577,7 @@ def manager_view_report():
     avgminnovationresult=avgminnovationresult, avgmhappinnessresult=avgmhappinnessresult,\
     avgetasksresult=avgetasksresult, avgemanagerresult=avgemanagerresult, avgevisionresult=avgevisionresult,\
     avgeteamresult=avgeteamresult, avgeinnovationresult=avgeinnovationresult, avgehappinnessresult=avgehappinnessresult, \
-    overallscore=overallscore, etasksresult=etasksresult)
+    overallscore=overallscore, etasksresult=etasksresult, Q1=Q1,Q2=Q2, Q3=Q3, Q4=Q4,Q5=Q5, Q6=Q6)
 
 
 @app.route("/employee_index")
