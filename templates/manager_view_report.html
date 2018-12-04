@@ -1,7 +1,7 @@
 {% extends "manager_layout.html" %}
 
 {% block title %}
-    Log In
+    View report
 {% endblock %}
 
 {% block main %}
@@ -31,6 +31,8 @@
          <p>Innovation assessment {{ avgeinnovationresult }}</p>
          <p>Happiness assessment {{ avgehappinnessresult }}</p>
          </div>
+
+         <h3 class="mb-3">Your overall score is {{ overallscore }}</h3>
         <div class="header">
             <h1>Score per Category</h1>
         </div>
@@ -42,6 +44,29 @@
                     <div id="score"></div>
                 </div>
             </div>
+        </div>
+
+        <div id="questiondisplay_col">
+            <table class="table table-striped">
+                <thead>
+                    <th>Question</th>
+                    <th>Score</th>
+                </thead>
+
+                <tbody>
+                 <tr>
+                    <td>{% for email_of_requested_employees_ in emails_of_requested_employees_ %}
+                    <p>
+                        {{ email_of_requested_employees_ }}
+                    </p>
+                    {% endfor %}
+                    </td>
+
+                    <td>
+                        {{ etasksresult }}
+                    </td>
+                </tr>
+            </table>
         </div>
 
 

@@ -1,15 +1,11 @@
-1. Den Link in der Email noch machen (application.py line 239)
-2. Select menus in self-assessment und employee_provide_feedback dünner machen
-3. Data Visualization in View report
-4. Wie funktioniert das Bootstrap für employee_provide_feedback und manager_provide_feedback? (mit Java vermutlich oder?)
-   Vermutlich brauchen wir auch server side protection --> if not Q1 or not Q2...: return apology
+1. Data Visualization in View report
+2. Als richtige Website hochladen
 
 
 
 Am Ende:
-1. Titles in den htmls überprüfen
-2. Style und Kommentare
-3. Evtl. als richtige Website uploaden
+1. Style-check
+2. Die URL und den Namen des Links in der Email noch ändern, je nach dem, was unsere URL am Ende ist
 
 
 
