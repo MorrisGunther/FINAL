@@ -299,6 +299,13 @@ def manager_self_assessment():
     # User reached route via POST
     if request.method == "POST":
 
+        # Ensure all questions have been answered
+        for i in range(40):
+            j = i + 1
+            k = "Q" + str(j)
+            if not request.form.get(k):
+                return manager_apology("Please answer all questions!")
+
         # Insert the values of the self-assessment form into the table "surveyanswers"
         db.execute("INSERT INTO surveyanswers(feedbacker_id, feedbackee_id, Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q9, Q10, Q11, Q12, Q13, Q14, Q15, \
                    Q16, Q17, Q18, Q19, Q20, Q21, Q22, Q23, Q24, Q25, Q26, Q27, Q28, Q29, Q30, Q31, Q32, Q33, Q34, Q35, Q36, \
@@ -316,19 +323,6 @@ def manager_self_assessment():
                    Q31=request.form.get("Q31"), Q32=request.form.get("Q32"), Q33=request.form.get("Q33"), Q34=request.form.get("Q34"),
                    Q35=request.form.get("Q35"), Q36=request.form.get("Q36"), Q37=request.form.get("Q37"), Q38=request.form.get("Q38"),
                    Q39=request.form.get("Q39"), Q40=request.form.get("Q40"))
-
-        # Ensure all questions have been answered
-        if not request.form.get("Q1") or not request.form.get("Q2") or not request.form.get("Q3") or not request.form.get("Q4") \
-        or not request.form.get("Q5") or not request.form.get("Q6") or not request.form.get("Q7") or not request.form.get("Q8") \
-        or not request.form.get("Q9") or not request.form.get("Q10") or not request.form.get("Q11") or not request.form.get("Q12") \
-        or not request.form.get("Q13") or not request.form.get("Q14") or not request.form.get("Q15") or not request.form.get("Q16") \
-        or not request.form.get("Q17") or not request.form.get("Q18") or not request.form.get("Q19") or not request.form.get("Q20") \
-        or not request.form.get("Q21") or not request.form.get("Q22") or not request.form.get("Q23") or not request.form.get("Q24") \
-        or not request.form.get("Q25") or not request.form.get("Q26") or not request.form.get("Q27") or not request.form.get("Q28") \
-        or not request.form.get("Q29") or not request.form.get("Q30") or not request.form.get("Q31") or not request.form.get("Q32") \
-        or not request.form.get("Q33") or not request.form.get("Q34") or not request.form.get("Q35") or not request.form.get("Q36") \
-        or not request.form.get("Q37") or not request.form.get("Q38") or not request.form.get("Q39") or not request.form.get("Q49"):
-            return manager_apology("Please answer all questions!")
 
         # Render manager self-assessment form
         return render_template("manager_self_assessment_success.html")
@@ -353,6 +347,16 @@ def manager_self_assessment():
 @login_required
 def manager_view_report():
 
+    self_assessment = db.execute("SELECT * FROM surveyanswers WHERE feedbacker_id= :feedbacker_id", feedbacker_id=session['user_id'])
+
+    employee_feedback = db.execute("SELECT * FROM surveyanswers WHERE feedbackee_id= :feedbackee_id AND feedbacker_id!= :feedbacker_id",
+                                   feedbackee_id=session['user_id'], feedbacker_id=session['user_id'])
+
+    if not self_assessment or not employee_feedback:
+        return render_template("manager_report_not_available.html")
+
+
+
     # TODOS: Overall score employees, self, assessment, Anzahl Feedbackgeber, Durchschnittsscore für jede einzelne Frage
     # aus employee feedback
 
@@ -363,34 +367,27 @@ def manager_view_report():
                                            AVG(Q11), AVG(Q12), AVG(Q13), AVG(Q14), AVG(Q15), AVG(Q16), AVG(Q17), AVG(Q18), AVG(Q19), AVG(Q20), \
                                            AVG(Q21), AVG(Q22), AVG(Q23), AVG(Q24), AVG(Q25), AVG(Q26), AVG(Q27), AVG(Q28), AVG(Q29), AVG(Q30), \
                                            AVG(Q31), AVG(Q32), AVG(Q33), AVG(Q34), AVG(Q35), AVG(Q36), AVG(Q37), AVG(Q38), AVG(Q39), AVG(Q40) \
-                                           FROM surveyanswers WHERE feedbackee_id =:feedbackee_id", feedbackee_id=session['user_id'])
-
-
+                                           FROM surveyanswers WHERE feedbackee_id= :feedbackee_id AND feedbacker_id!= :feedbacker_id",
+                                           feedbackee_id=session['user_id'], feedbacker_id=session['user_id'])
 
     self_assessment_results = db.execute("SELECT AVG(Q1), AVG(Q2), AVG(Q3), AVG(Q4), AVG(Q5), AVG(Q6), AVG(Q7), AVG(Q8), AVG(Q9), AVG(Q10), \
                                          AVG(Q11), AVG(Q12), AVG(Q13), AVG(Q14), AVG(Q15), AVG(Q16), AVG(Q17), AVG(Q18), AVG(Q19), AVG(Q20), \
                                          AVG(Q21), AVG(Q22), AVG(Q23), AVG(Q24), AVG(Q25), AVG(Q26), AVG(Q27), AVG(Q28), AVG(Q29), AVG(Q30), \
                                          AVG(Q31), AVG(Q32), AVG(Q33), AVG(Q34), AVG(Q35), AVG(Q36), AVG(Q37), AVG(Q38), AVG(Q39), AVG(Q40) \
-                                         FROM surveyanswers WHERE feedbacker_id =:feedbacker_id", feedbacker_id=session['user_id'])
+                                         FROM surveyanswers WHERE feedbacker_id= :feedbacker_id", feedbacker_id=session['user_id'])
 
-    if not self_assessment_results:
-        return render_template("info.html", title="No self-assessment", text="You have not submitted your self-assessment. Please do this, \
-                               that we can generate a report.")
+    number_of_feedbackers = len(employee_feedback_results)
 
-    if (len(employee_feedback_results) - 1) == 0:
-        return render_template("info.html", title="No feedback", text="You have not received feedback from any employeees. \
-                               Check report later again.")
 
-    number_of_feedbackers = len(employee_feedback_results) - 1
+
 
     employee_feedback_results_dict = employee_feedback_results[0]
-
     self_assessment_results_dict = self_assessment_results[0]
 
     WritetoCsv(employee_feedback_results_dict, 'static/data/employee_feedback.csv')
     WritetoCsv(self_assessment_results_dict, 'static/data/self_assessment.csv')
 
-    return render_template("manager_view_report.html")#TODO
+    return render_template("manager_view_report.html")
 
 def WritetoCsv(dictionary, name_of_csvfile):
     category_lengths = [7, 10, 7, 7, 7, 2]
@@ -437,6 +434,13 @@ def employee_provide_feedback():
     # User reached route via POST
     if request.method == "POST":
 
+        # Ensure all questions have been answered
+        for i in range(40):
+            j = i + 1
+            k = "Q" + str(j)
+            if not request.form.get(k):
+                return manager_apology("Please answer all questions!")
+
         # Store the id of the manager to be assessed in the variable "feedbackee_id_"
         feedbackee_id = db.execute("SELECT id_of_manager_to_be_assessed FROM users WHERE id=:id_", id_=session['user_id'])
         feedbackee_id_ = feedbackee_id[0]["id_of_manager_to_be_assessed"]
@@ -458,19 +462,6 @@ def employee_provide_feedback():
                    Q31=request.form.get("Q31"), Q32=request.form.get("Q32"), Q33=request.form.get("Q33"), Q34=request.form.get("Q34"),
                    Q35=request.form.get("Q35"), Q36=request.form.get("Q36"), Q37=request.form.get("Q37"), Q38=request.form.get("Q38"),
                    Q39=request.form.get("Q39"), Q40=request.form.get("Q40"))
-
-        # Ensure all questions have been answered
-        if not request.form.get("Q1") or not request.form.get("Q2") or not request.form.get("Q3") or not request.form.get("Q4") \
-        or not request.form.get("Q5") or not request.form.get("Q6") or not request.form.get("Q7") or not request.form.get("Q8") \
-        or not request.form.get("Q9") or not request.form.get("Q10") or not request.form.get("Q11") or not request.form.get("Q12") \
-        or not request.form.get("Q13") or not request.form.get("Q14") or not request.form.get("Q15") or not request.form.get("Q16") \
-        or not request.form.get("Q17") or not request.form.get("Q18") or not request.form.get("Q19") or not request.form.get("Q20") \
-        or not request.form.get("Q21") or not request.form.get("Q22") or not request.form.get("Q23") or not request.form.get("Q24") \
-        or not request.form.get("Q25") or not request.form.get("Q26") or not request.form.get("Q27") or not request.form.get("Q28") \
-        or not request.form.get("Q29") or not request.form.get("Q30") or not request.form.get("Q31") or not request.form.get("Q32") \
-        or not request.form.get("Q33") or not request.form.get("Q34") or not request.form.get("Q35") or not request.form.get("Q36") \
-        or not request.form.get("Q37") or not request.form.get("Q38") or not request.form.get("Q39") or not request.form.get("Q49"):
-            return manager_apology("Please answer all questions!")
 
         # Render employee provide feedback success form
         return render_template("employee_provide_feedback_success.html")
