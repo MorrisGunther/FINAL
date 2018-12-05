@@ -3,9 +3,10 @@
 queue()
     .defer(d3.csv, "static/data/categories.csv")
     .defer(d3.csv, "static/data/employee_feedback.csv")
+    .defer(d3.csv, "static/data/self_assessment.csv")
     .await(compileData);
 
-function compileData(error, categoryData, scoreData) {
+function compileData(error, categoryData, employee_feedback_Data, self_assessment_Data) {
     // Make sure no error loading data
     if (error){
         return console.log(error);
@@ -17,15 +18,9 @@ function compileData(error, categoryData, scoreData) {
         categoryMap[categoryObj.categoryID] = categoryObj.category;
     });
 
-    // 347 albums
-    // {albumID, title, artistID}
-    console.log("score data", scoreData);
-    console.log("category map", categoryMap);
-
-
     // Now that the data has laoded, we can make the visualization
-    createVis("chart-display-col", scoreData, categoryMap);
-    createVis("chart-display-col1", scoreData, categoryMap);
+    createVis("employee-feedback-col", employee_feedback_Data, categoryMap);
+    createVis("self-assessment-col", self_assessment_Data, categoryMap);
 
 }
 

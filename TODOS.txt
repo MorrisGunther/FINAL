@@ -1,9 +1,8 @@
 1. Data Visualization in View report
 2. Als richtige Website hochladen
 3. Dinge von Anne im HTML view report einbauen
-4. Python code von view_report verbessern, sodass Daten in gebrauchtem Format herauskommen
+4. Python code vervollständigen
 5. HTML erstellen für den Fall, dass noch kein Feedback gegeben wurde
-7. Gleicher Graph für Self-assessment
 
 
 

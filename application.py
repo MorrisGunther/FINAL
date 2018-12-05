@@ -353,6 +353,12 @@ def manager_self_assessment():
 @login_required
 def manager_view_report():
 
+    # TODOS: Overall score employees, self, assessment, overall, Anzahl Feedbackgeber, Durchschnittsscore für jede einzelne Frage
+    # aus self-assessment und aus employee feedback
+
+    manager_name = db.execute("SELECT manager_name FROM users WHERE id=:id_", id_=session['user_id'])
+    manager_name_ = manager_name[0]["manager_name"]
+
     employee_feedback_results = db.execute("SELECT AVG(Q1), AVG(Q2), AVG(Q3), AVG(Q4), AVG(Q5), AVG(Q6), AVG(Q7), AVG(Q8), AVG(Q9), AVG(Q10), \
                                            AVG(Q11), AVG(Q12), AVG(Q13), AVG(Q14), AVG(Q15), AVG(Q16), AVG(Q17), AVG(Q18), AVG(Q19), AVG(Q20), \
                                            AVG(Q21), AVG(Q22), AVG(Q23), AVG(Q24), AVG(Q25), AVG(Q26), AVG(Q27), AVG(Q28), AVG(Q29), AVG(Q30), \

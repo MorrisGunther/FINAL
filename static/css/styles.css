@@ -1,12 +1,3 @@
-/*@font-face {*/
-/*   font-family: myFirstFont;*/
-/*   src: url(sansation_light.woff);*/
-/*}*/
-
-/** {*/
-/*   font-family: myFirstFont;*/
-/*}*/
-
 nav .navbar-brand
 {
     /* size for brand */
@@ -72,13 +63,13 @@ table {
     width: 50%;
 }
 
-#chart-display-col {
+#employee-feedback-col {
     border-right: 4px dotted black;
     height: 500px;
     padding: 0px;
 }
 
-#info-display-col {
+#self-assessment-col {
     height: 500px;
     padding: 0px;
 }
