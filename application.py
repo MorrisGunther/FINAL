@@ -352,240 +352,58 @@ def manager_self_assessment():
 @app.route("/manager_view_report")
 @login_required
 def manager_view_report():
-    """
-    manager_name = db.execute("SELECT manager_name FROM users WHERE id=:id_", id_=session['user_id'])
-    manager_name = manager_name[0]["manager_name"]
+
+    employee_feedback_results = db.execute("SELECT AVG(Q1), AVG(Q2), AVG(Q3), AVG(Q4), AVG(Q5), AVG(Q6), AVG(Q7), AVG(Q8), AVG(Q9), AVG(Q10), \
+                                           AVG(Q11), AVG(Q12), AVG(Q13), AVG(Q14), AVG(Q15), AVG(Q16), AVG(Q17), AVG(Q18), AVG(Q19), AVG(Q20), \
+                                           AVG(Q21), AVG(Q22), AVG(Q23), AVG(Q24), AVG(Q25), AVG(Q26), AVG(Q27), AVG(Q28), AVG(Q29), AVG(Q30), \
+                                           AVG(Q31), AVG(Q32), AVG(Q33), AVG(Q34), AVG(Q35), AVG(Q36), AVG(Q37), AVG(Q38), AVG(Q39), AVG(Q40) \
+                                           FROM surveyanswers WHERE feedbackee_id =:feedbackee_id", feedbackee_id=session['user_id'])
+
+    employee_feedback_results_dict = employee_feedback_results[0]
+
+    self_assessment_results = db.execute("SELECT AVG(Q1), AVG(Q2), AVG(Q3), AVG(Q4), AVG(Q5), AVG(Q6), AVG(Q7), AVG(Q8), AVG(Q9), AVG(Q10), \
+                                         AVG(Q11), AVG(Q12), AVG(Q13), AVG(Q14), AVG(Q15), AVG(Q16), AVG(Q17), AVG(Q18), AVG(Q19), AVG(Q20), \
+                                         AVG(Q21), AVG(Q22), AVG(Q23), AVG(Q24), AVG(Q25), AVG(Q26), AVG(Q27), AVG(Q28), AVG(Q29), AVG(Q30), \
+                                         AVG(Q31), AVG(Q32), AVG(Q33), AVG(Q34), AVG(Q35), AVG(Q36), AVG(Q37), AVG(Q38), AVG(Q39), AVG(Q40) \
+                                         FROM surveyanswers WHERE feedbacker_id =:feedbacker_id", feedbacker_id=session['user_id'])
+
+    self_assessment_results_dict = self_assessment_results[0]
 
 
-    mtasksresult = db.execute("SELECT Q1, Q2, Q3, Q4, Q5, Q6, Q7 FROM surveyanswers WHERE feedbacker_id=:feedbacker_id",
-                                         feedbacker_id=session['user_id'])
-    mmanagerresult = db.execute("SELECT Q8, Q9, Q10, Q11, Q12, Q13, Q14, Q15, Q16, Q17 FROM surveyanswers WHERE feedbacker_id=:feedbacker_id",
-                                         feedbacker_id=session['user_id'])
-    mvisionresult = db.execute("SELECT Q18, Q19, Q20, Q21, Q22, Q23, Q24 FROM surveyanswers WHERE feedbacker_id=:feedbacker_id",
-                                         feedbacker_id=session['user_id'])
-    mteamresult = db.execute("SELECT Q25, Q26, Q27, Q28, Q29, Q30, Q31 FROM surveyanswers WHERE feedbacker_id=:feedbacker_id",
-                                         feedbacker_id=session['user_id'])
-    minnovationresult = db.execute("SELECT Q32, Q33, Q34, Q35, Q36, Q37, Q38 FROM surveyanswers WHERE feedbacker_id=:feedbacker_id",
-                                         feedbacker_id=session['user_id'])
-    mhappinnessresult = db.execute("SELECT Q39, Q40 FROM surveyanswers WHERE feedbacker_id=:feedbacker_id",
-                                         feedbacker_id=session['user_id'])
-
-    print(mhappinnessresult)
-
-    etasksresult = db.execute("SELECT AVG(Q1), AVG(Q2), AVG(Q3), AVG(Q4), AVG(Q5), AVG(Q6), AVG(Q7) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
-                                         feedbackee_id=session['user_id'])
-
-    ########
-
-    Q1 = db.execute("SELECT AVG(Q1) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
-                                         feedbackee_id=session['user_id'])
-    Q1 = Q1[0]
-
-    Q2 = db.execute("SELECT AVG(Q2) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
-                                         feedbackee_id=session['user_id'])
-    Q3 = db.execute("SELECT AVG(Q3) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
-                                         feedbackee_id=session['user_id'])
-    Q4 = db.execute("SELECT AVG(Q4) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
-                                         feedbackee_id=session['user_id'])
-    Q5 = db.execute("SELECT AVG(Q5) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
-                                         feedbackee_id=session['user_id'])
-    Q6 = db.execute("SELECT AVG(Q6) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
-                                         feedbackee_id=session['user_id'])
-
-    #######
-
-
-    emanagerresult = db.execute("SELECT AVG(Q8), AVG(Q9), AVG(Q10), AVG(Q11), AVG(Q12), AVG(Q13), AVG(Q14), AVG(Q15), AVG(Q16), AVG(Q17) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
-                                         feedbackee_id=session['user_id'])
-    evisionresult = db.execute("SELECT AVG(Q18), AVG(Q19), AVG(Q20), AVG(Q21), AVG(Q22), AVG(Q23), AVG(Q24) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
-                                         feedbackee_id=session['user_id'])
-    eteamresult = db.execute("SELECT AVG(Q25), AVG(Q26), AVG(Q27), AVG(Q28), AVG(Q29), AVG(Q30), AVG(Q31) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
-                                         feedbackee_id=session['user_id'])
-    einnovationresult = db.execute("SELECT AVG(Q32), AVG(Q33), AVG(Q34), AVG(Q35), AVG(Q36), AVG(Q37), AVG(Q38) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
-                                         feedbackee_id=session['user_id'])
-    ehappinnessresult = db.execute("SELECT AVG(Q39), AVG(Q40) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
-                                         feedbackee_id=session['user_id'])
-    print(ehappinnessresult)
-
-    mtasksresult_ = []
-    for onemtasksresult in mtasksresult:
-        mtasksresult_.append(onemtasksresult["Q1"])
-        mtasksresult_.append(onemtasksresult["Q2"])
-        mtasksresult_.append(onemtasksresult["Q3"])
-        mtasksresult_.append(onemtasksresult["Q4"])
-        mtasksresult_.append(onemtasksresult["Q5"])
-        mtasksresult_.append(onemtasksresult["Q6"])
-        mtasksresult_.append(onemtasksresult["Q7"])
-    print(mtasksresult_)
-
-    mmanagerresult_ = []
-    for onemmanagerresult in mmanagerresult:
-        mmanagerresult_.append(onemmanagerresult["Q8"])
-        mmanagerresult_.append(onemmanagerresult["Q9"])
-        mmanagerresult_.append(onemmanagerresult["Q10"])
-        mmanagerresult_.append(onemmanagerresult["Q11"])
-        mmanagerresult_.append(onemmanagerresult["Q12"])
-        mmanagerresult_.append(onemmanagerresult["Q13"])
-        mmanagerresult_.append(onemmanagerresult["Q14"])
-        mmanagerresult_.append(onemmanagerresult["Q15"])
-        mmanagerresult_.append(onemmanagerresult["Q16"])
-        mmanagerresult_.append(onemmanagerresult["Q17"])
-    print(mmanagerresult_)
-
-    mvisionresult_ = []
-    for onemvisionresult in mvisionresult:
-        mvisionresult_.append(onemvisionresult["Q18"])
-        mvisionresult_.append(onemvisionresult["Q19"])
-        mvisionresult_.append(onemvisionresult["Q20"])
-        mvisionresult_.append(onemvisionresult["Q21"])
-        mvisionresult_.append(onemvisionresult["Q22"])
-        mvisionresult_.append(onemvisionresult["Q23"])
-        mvisionresult_.append(onemvisionresult["Q24"])
-    print(mvisionresult_)
-
-    mteamresult_ = []
-    for onemteamresult in mteamresult:
-        mteamresult_.append(onemteamresult["Q25"])
-        mteamresult_.append(onemteamresult["Q26"])
-        mteamresult_.append(onemteamresult["Q27"])
-        mteamresult_.append(onemteamresult["Q28"])
-        mteamresult_.append(onemteamresult["Q29"])
-        mteamresult_.append(onemteamresult["Q30"])
-        mteamresult_.append(onemteamresult["Q31"])
-    print(mteamresult_)
-
-    minnovationresult_ = []
-    for oneminnovationresult in minnovationresult:
-        minnovationresult_.append(oneminnovationresult["Q32"])
-        minnovationresult_.append(oneminnovationresult["Q33"])
-        minnovationresult_.append(oneminnovationresult["Q34"])
-        minnovationresult_.append(oneminnovationresult["Q35"])
-        minnovationresult_.append(oneminnovationresult["Q36"])
-        minnovationresult_.append(oneminnovationresult["Q37"])
-        minnovationresult_.append(oneminnovationresult["Q38"])
-    print(minnovationresult_)
-
-    mhappinnessresult_ = []
-    for onemhappinnessresult in mhappinnessresult:
-        mhappinnessresult_.append(onemhappinnessresult["Q39"])
-        mhappinnessresult_.append(onemhappinnessresult["Q40"])
-    print(mhappinnessresult_)
-
-    etasksresult_ = []
-    for oneetasksresult in etasksresult:
-        etasksresult_.append(oneetasksresult["AVG(Q1)"])
-        etasksresult_.append(oneetasksresult["AVG(Q2)"])
-        etasksresult_.append(oneetasksresult["AVG(Q3)"])
-        etasksresult_.append(oneetasksresult["AVG(Q4)"])
-        etasksresult_.append(oneetasksresult["AVG(Q5)"])
-        etasksresult_.append(oneetasksresult["AVG(Q6)"])
-        etasksresult_.append(oneetasksresult["AVG(Q7)"])
-    print(etasksresult_)
-
-    emanagerresult_ = []
-    for oneemanagerresult in emanagerresult:
-        emanagerresult_.append(oneemanagerresult["AVG(Q8)"])
-        emanagerresult_.append(oneemanagerresult["AVG(Q9)"])
-        emanagerresult_.append(oneemanagerresult["AVG(Q10)"])
-        emanagerresult_.append(oneemanagerresult["AVG(Q11)"])
-        emanagerresult_.append(oneemanagerresult["AVG(Q12)"])
-        emanagerresult_.append(oneemanagerresult["AVG(Q13)"])
-        emanagerresult_.append(oneemanagerresult["AVG(Q14)"])
-        emanagerresult_.append(oneemanagerresult["AVG(Q15)"])
-        emanagerresult_.append(oneemanagerresult["AVG(Q16)"])
-        emanagerresult_.append(oneemanagerresult["AVG(Q17)"])
-    print(emanagerresult_)
-
-    evisionresult_ = []
-    for oneevisionresult in evisionresult:
-        evisionresult_.append(oneevisionresult["AVG(Q18)"])
-        evisionresult_.append(oneevisionresult["AVG(Q19)"])
-        evisionresult_.append(oneevisionresult["AVG(Q20)"])
-        evisionresult_.append(oneevisionresult["AVG(Q21)"])
-        evisionresult_.append(oneevisionresult["AVG(Q22)"])
-        evisionresult_.append(oneevisionresult["AVG(Q23)"])
-        evisionresult_.append(oneevisionresult["AVG(Q24)"])
-    print(evisionresult_)
-
-    eteamresult_ = []
-    for oneeteamresult in eteamresult:
-        eteamresult_.append(oneeteamresult["AVG(Q25)"])
-        eteamresult_.append(oneeteamresult["AVG(Q26)"])
-        eteamresult_.append(oneeteamresult["AVG(Q27)"])
-        eteamresult_.append(oneeteamresult["AVG(Q28)"])
-        eteamresult_.append(oneeteamresult["AVG(Q29)"])
-        eteamresult_.append(oneeteamresult["AVG(Q30)"])
-        eteamresult_.append(oneeteamresult["AVG(Q31)"])
-    print(eteamresult_)
-
-    einnovationresult_ = []
-    for oneeinnovationresult in einnovationresult:
-        einnovationresult_.append(oneeinnovationresult["AVG(Q32)"])
-        einnovationresult_.append(oneeinnovationresult["AVG(Q33)"])
-        einnovationresult_.append(oneeinnovationresult["AVG(Q34)"])
-        einnovationresult_.append(oneeinnovationresult["AVG(Q35)"])
-        einnovationresult_.append(oneeinnovationresult["AVG(Q36)"])
-        einnovationresult_.append(oneeinnovationresult["AVG(Q37)"])
-        einnovationresult_.append(oneeinnovationresult["AVG(Q38)"])
-    print(einnovationresult_)
-
-    ehappinnessresult_ = []
-    for oneehappinessresult in ehappinnessresult:
-        ehappinnessresult_.append(oneehappinessresult["AVG(Q39)"])
-        ehappinnessresult_.append(oneehappinessresult["AVG(Q40)"])
-    print(ehappinnessresult_)
-
-
-
-    avgmtasksresult = round(float(sum(mtasksresult_)) / len(mtasksresult_), 2)
-    avgmmanagerresult = round(float(sum(mmanagerresult_)) / len(mmanagerresult_), 2)
-    avgmvisionresult = round(float(sum(mvisionresult_)) / len(mvisionresult_), 2)
-    avgmteamresult = round(float(sum(mteamresult_)) / len(mteamresult_), 2)
-    avgminnovationresult = round(float(sum(minnovationresult_)) / len(minnovationresult_), 2)
-    avgmhappinnessresult = round(float(sum(mhappinnessresult_)) / len(mhappinnessresult_), 2)
-    print(avgmhappinnessresult)
-
-
-    avgetasksresult = round(float(sum(etasksresult_)) / len(etasksresult_), 2)
-    avgemanagerresult = round(float(sum(emanagerresult_)) / len(emanagerresult_), 2)
-    avgevisionresult = round(float(sum(evisionresult_)) / len(evisionresult_), 2)
-    avgeteamresult = round(float(sum(eteamresult_)) / len(eteamresult_), 2)
-    avgeinnovationresult = round(float(sum(einnovationresult_)) / len(evisionresult_), 2)
-    avgehappinnessresult = round(float(sum(ehappinnessresult_)) / len(ehappinnessresult_), 2)
-
-    overallscore = round((avgetasksresult + avgemanagerresult + avgevisionresult + avgeteamresult + avgeinnovationresult + avgehappinnessresult)/6, 2)
-
-    with open('static/c.csv', mode='w') as categories_file:
-        categories_writer = csv.writer(categories_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-
-        categories_writer.writerow(['categoryID','category'])
-        categories_writer.writerow(['1','avgetasksresult'])
-        categories_writer.writerow(['2','avgemanagerresult'])
-        categories_writer.writerow(['3','avgevisionresult'])
-        categories_writer.writerow(['4','avgeteamresult'])
-        categories_writer.writerow(['5','avgeinnovationresult'])
-        categories_writer.writerow(['6','avgehappinnessresult'])
-
-    with open('static/s.csv', mode='w') as scores_file:
-        scores_writer = csv.writer(scores_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-
-        scores_writer.writerow(['scoreID','score','categoryID'])
-        scores_writer.writerow(['1',avgetasksresult,'1'])
-        scores_writer.writerow(['2',avgemanagerresult,'2'])
-        scores_writer.writerow(['3',avgevisionresult,'3'])
-        scores_writer.writerow(['4',avgeteamresult,'4'])
-        scores_writer.writerow(['5',avgeinnovationresult,'5'])
-        scores_writer.writerow(['6',avgehappinnessresult,'6'])
-
-    return render_template("manager_view_report.html", manager_name=manager_name, avgmtasksresult=avgmtasksresult,\
-    avgmmanagerresult=avgmmanagerresult, avgmvisionresult=avgmvisionresult, avgmteamresult=avgmteamresult, \
-    avgminnovationresult=avgminnovationresult, avgmhappinnessresult=avgmhappinnessresult,\
-    avgetasksresult=avgetasksresult, avgemanagerresult=avgemanagerresult, avgevisionresult=avgevisionresult,\
-    avgeteamresult=avgeteamresult, avgeinnovationresult=avgeinnovationresult, avgehappinnessresult=avgehappinnessresult, \
-    overallscore=overallscore, etasksresult=etasksresult, Q1=Q1,Q2=Q2, Q3=Q3, Q4=Q4,Q5=Q5, Q6=Q6)
-    """
+    WritetoCsv(employee_feedback_results_dict, 'static/data/employee_feedback.csv')
+    WritetoCsv(self_assessment_results_dict, 'static/data/self_assessment.csv')
 
     return render_template("manager_view_report.html")
+
+def WritetoCsv(dictionary, name_of_csvfile):
+    category_lengths = [7, 10, 7, 7, 7, 2]
+    results = []
+    lower_boundary = 1
+    upper_boundary = category_lengths[0] + 1
+    # iterate over categories
+    for i in range(len(category_lengths)):
+        total = 0
+        # iterate over questions
+        for j in range (lower_boundary, upper_boundary):
+            s = "AVG(Q" + str(j) + ")"
+            total += dictionary[s]
+        category_average = round(total/int(category_lengths[i]), 2)
+        results.append(category_average)
+        if i < 5:
+            lower_boundary = upper_boundary
+            upper_boundary += int(category_lengths[i+1])
+
+    results_ = []
+    for i in range(len(category_lengths)):
+        results_.append({"categoryID": i + 1, "score": results[i]})
+
+    csv_columns = ['categoryID','score']
+    with open(name_of_csvfile, 'w') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
+        writer.writeheader()
+        for result in results_:
+            writer.writerow(result)
+
 
 @app.route("/employee_index")
 @login_required

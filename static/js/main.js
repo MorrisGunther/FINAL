@@ -2,7 +2,7 @@
 // Load the data
 queue()
     .defer(d3.csv, "static/data/categories.csv")
-    .defer(d3.csv, "static/data/scores.csv")
+    .defer(d3.csv, "static/data/employee_feedback.csv")
     .await(compileData);
 
 function compileData(error, categoryData, scoreData) {
