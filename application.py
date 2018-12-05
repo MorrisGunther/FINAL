@@ -353,8 +353,8 @@ def manager_self_assessment():
 @login_required
 def manager_view_report():
 
-    # TODOS: Overall score employees, self, assessment, overall, Anzahl Feedbackgeber, Durchschnittsscore für jede einzelne Frage
-    # aus self-assessment und aus employee feedback
+    # TODOS: Overall score employees, self, assessment, Anzahl Feedbackgeber, Durchschnittsscore für jede einzelne Frage
+    # aus employee feedback
 
     manager_name = db.execute("SELECT manager_name FROM users WHERE id=:id_", id_=session['user_id'])
     manager_name_ = manager_name[0]["manager_name"]
@@ -365,7 +365,7 @@ def manager_view_report():
                                            AVG(Q31), AVG(Q32), AVG(Q33), AVG(Q34), AVG(Q35), AVG(Q36), AVG(Q37), AVG(Q38), AVG(Q39), AVG(Q40) \
                                            FROM surveyanswers WHERE feedbackee_id =:feedbackee_id", feedbackee_id=session['user_id'])
 
-    employee_feedback_results_dict = employee_feedback_results[0]
+
 
     self_assessment_results = db.execute("SELECT AVG(Q1), AVG(Q2), AVG(Q3), AVG(Q4), AVG(Q5), AVG(Q6), AVG(Q7), AVG(Q8), AVG(Q9), AVG(Q10), \
                                          AVG(Q11), AVG(Q12), AVG(Q13), AVG(Q14), AVG(Q15), AVG(Q16), AVG(Q17), AVG(Q18), AVG(Q19), AVG(Q20), \
@@ -373,13 +373,24 @@ def manager_view_report():
                                          AVG(Q31), AVG(Q32), AVG(Q33), AVG(Q34), AVG(Q35), AVG(Q36), AVG(Q37), AVG(Q38), AVG(Q39), AVG(Q40) \
                                          FROM surveyanswers WHERE feedbacker_id =:feedbacker_id", feedbacker_id=session['user_id'])
 
-    self_assessment_results_dict = self_assessment_results[0]
+    if not self_assessment_results:
+        return render_template("info.html", title="No self-assessment", text="You have not submitted your self-assessment. Please do this, \
+                               that we can generate a report.")
 
+    if (len(employee_feedback_results) - 1) == 0:
+        return render_template("info.html", title="No feedback", text="You have not received feedback from any employeees. \
+                               Check report later again.")
+
+    number_of_feedbackers = len(employee_feedback_results) - 1
+
+    employee_feedback_results_dict = employee_feedback_results[0]
+
+    self_assessment_results_dict = self_assessment_results[0]
 
     WritetoCsv(employee_feedback_results_dict, 'static/data/employee_feedback.csv')
     WritetoCsv(self_assessment_results_dict, 'static/data/self_assessment.csv')
 
-    return render_template("manager_view_report.html")
+    return render_template("manager_view_report.html")#TODO
 
 def WritetoCsv(dictionary, name_of_csvfile):
     category_lengths = [7, 10, 7, 7, 7, 2]
