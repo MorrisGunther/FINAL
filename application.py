@@ -352,7 +352,7 @@ def manager_self_assessment():
 @app.route("/manager_view_report")
 @login_required
 def manager_view_report():
-
+    """
     manager_name = db.execute("SELECT manager_name FROM users WHERE id=:id_", id_=session['user_id'])
     manager_name = manager_name[0]["manager_name"]
 
@@ -375,6 +375,8 @@ def manager_view_report():
     etasksresult = db.execute("SELECT AVG(Q1), AVG(Q2), AVG(Q3), AVG(Q4), AVG(Q5), AVG(Q6), AVG(Q7) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
                                          feedbackee_id=session['user_id'])
 
+    ########
+
     Q1 = db.execute("SELECT AVG(Q1) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
                                          feedbackee_id=session['user_id'])
     Q1 = Q1[0]
@@ -389,6 +391,9 @@ def manager_view_report():
                                          feedbackee_id=session['user_id'])
     Q6 = db.execute("SELECT AVG(Q6) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
                                          feedbackee_id=session['user_id'])
+
+    #######
+
 
     emanagerresult = db.execute("SELECT AVG(Q8), AVG(Q9), AVG(Q10), AVG(Q11), AVG(Q12), AVG(Q13), AVG(Q14), AVG(Q15), AVG(Q16), AVG(Q17) FROM surveyanswers WHERE feedbackee_id=:feedbackee_id",
                                          feedbackee_id=session['user_id'])
@@ -578,7 +583,9 @@ def manager_view_report():
     avgetasksresult=avgetasksresult, avgemanagerresult=avgemanagerresult, avgevisionresult=avgevisionresult,\
     avgeteamresult=avgeteamresult, avgeinnovationresult=avgeinnovationresult, avgehappinnessresult=avgehappinnessresult, \
     overallscore=overallscore, etasksresult=etasksresult, Q1=Q1,Q2=Q2, Q3=Q3, Q4=Q4,Q5=Q5, Q6=Q6)
+    """
 
+    return render_template("manager_view_report.html")
 
 @app.route("/employee_index")
 @login_required

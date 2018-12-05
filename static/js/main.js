@@ -1,10 +1,9 @@
 
 // Load the data
 queue()
-    .defer(d3.csv, "static/c.csv")
-    .defer(d3.csv, "static/s.csv")
+    .defer(d3.csv, "static/data/categories.csv")
+    .defer(d3.csv, "static/data/scores.csv")
     .await(compileData);
-
 
 function compileData(error, categoryData, scoreData) {
     // Make sure no error loading data
@@ -12,49 +11,31 @@ function compileData(error, categoryData, scoreData) {
         return console.log(error);
     }
 
-    console.log(categoryData);
-    console.log(scoreData);
-
-    // Create map between category ID and the name
+    // Create map between artist ID and the name
     let categoryMap = {};
     categoryData.forEach(function(categoryObj) {
         categoryMap[categoryObj.categoryID] = categoryObj.category;
     });
 
-    console.log(categoryMap);
+    // 347 albums
+    // {albumID, title, artistID}
+    console.log("score data", scoreData);
+    console.log("category map", categoryMap);
 
-    let getscores = [];
-    for (let i=0; i < scoreData.length ; i++)
-        getscores.push(scoreData[i]["score"]);
-
-    console.log("Scores", getscores);
-
-    // Sort the data in ascending order
-    getscores.sort(function(a,b) {
-       return a - b;
-    });
-
-    // // Splicing the array for display convenience. Not really necessary
-    // getscores.splice(0, 180);
 
     // Now that the data has laoded, we can make the visualization
-    createVis("chart-display-col", getscores, categoryMap, scoreData);
+    createVis("chart-display-col", scoreData, categoryMap);
+    createVis("chart-display-col1", scoreData, categoryMap);
+
 }
 
-function createVis(parentElement, countData, categoryMap, scoreData) {
+function createVis(parentElement, scoreData, categoryMap) {
     // Configure margins
     let margin = { top: 20, right: 20, bottom: 90, left: 30 };
-
-    console.log("category map", categoryMap);
-    console.log("countData", countData);
-
-    console.log($("#" + parentElement).width())
 
     // Cofigure height and width of the visualization
     let width = $("#" + parentElement).width() - margin.left - margin.right,
         height = $("#" + parentElement).height() - margin.top - margin.bottom;
-
-    console.log($("#" + parentElement).height())
 
     // SVG drawing area
     let svg = d3.select("#" + parentElement).append("svg")
@@ -63,18 +44,16 @@ function createVis(parentElement, countData, categoryMap, scoreData) {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    console.log(height + margin.top + margin.bottom)
-
     // Create scales
     // Use ordinal scale since the x axis isn't numerical
     let xOrdinalScale = d3.scaleBand()
         .rangeRound([0, width])
         .padding(.5)
-        .domain(d3.map(countData, function(datum){return categoryMap[datum.key]}).keys());
+        .domain(d3.map(scoreData, function(datum){return categoryMap[datum.categoryID]}).keys());
 
     let yScale = d3.scaleLinear()
         .range([height - margin.bottom, margin.top]) // we could also set this to height and 0, but would need to translate axis
-        .domain([0, d3.max(countData, function(datum){ return datum})]);
+        .domain([0, d3.max(scoreData, function(datum){ return datum.score})]);
 
     // Now set up the axis
     let barYAxis = d3.axisLeft()
@@ -99,48 +78,26 @@ function createVis(parentElement, countData, categoryMap, scoreData) {
         .attr("transform", "rotate(75)") // allows us to rotate the text
         .style("text-anchor", "start");;
 
-
     // Draw the bars
     let bars = svg.selectAll("rect")
-        .data(countData)
+        .data(scoreData)
         .enter()
         .append("rect")
         .attr("class","count-bar")
         .attr("fill", "red")
         .attr("width", xOrdinalScale.bandwidth())
         .attr("height", function(datum) {
-            return yScale(0) - yScale(datum);
+            return yScale(0) - yScale(datum.score);
         })
         .attr("y", function(datum){
-            return yScale(datum);
+            return yScale(datum.score);
         })
         .attr("x", function(datum){
-            return xOrdinalScale(categoryMap[datum.key]);
-        })
-        .on("click", function(datum){
-            getCategoryInfo(categoryMap[datum.key], datum.key, scoreData);
+            return xOrdinalScale(categoryMap[datum.categoryID]);
         });
-
-
 }
 
-function getScoreInfo(categoryName, categoryID, scoreData){
-    // Get category name
-    document.querySelector("#category-span").innerHTML = category;
 
-    // Construct list of scores for that category
-    let ul_list = "<ul>";
-    scoreData.forEach(function(score){
-        if (score.categoryID === categoryID) {
-            ul_list += "<li>" + score.score + "</li>";
-        }
-    })
-    ul_list += "</ul>";
-
-    // Put that html string into the dom
-    document.querySelector("#scores").innerHTML = ul_list;
-
-}
 
 
 
