@@ -1,8 +1,0 @@
-1. HTML view report mergen
-2. HTMLs mit validator überprüfen
-3. Alles aus Database löschen
-4. Video
-
-
-
-

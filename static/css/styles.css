@@ -70,12 +70,12 @@ table {
 }
 
 #self-assessment-col {
+    left: 20px;
     height: 500px;
     padding: 0px;
 }
 
 /* Style svg components*/
 svg {
-    fill: rgba(110, 205, 255, 0.54);
     background-color: white;
 }
