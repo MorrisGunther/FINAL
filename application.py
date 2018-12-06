@@ -356,12 +356,14 @@ def manager_view_report():
         return render_template("manager_report_not_available.html")
 
 
-
-    # TODOS: Overall score employees, self, assessment, Anzahl Feedbackgeber, Durchschnittsscore für jede einzelne Frage
-    # aus employee feedback
-
     manager_name = db.execute("SELECT manager_name FROM users WHERE id=:id_", id_=session['user_id'])
     manager_name_ = manager_name[0]["manager_name"]
+
+    # Store the number of feedbackers in the variable "number_of_feedbackers_"
+    number_of_feedbackers = db.execute("SELECT COUNT(feedbackee_id) num FROM surveyanswers \
+                                       WHERE feedbackee_id= :feedbackee_id AND feedbacker_id!= :feedbacker_id",
+                                       feedbackee_id=session['user_id'], feedbacker_id=session['user_id'])
+    number_of_feedbackers_ = number_of_feedbackers[0]["num"]
 
     employee_feedback_results = db.execute("SELECT AVG(Q1), AVG(Q2), AVG(Q3), AVG(Q4), AVG(Q5), AVG(Q6), AVG(Q7), AVG(Q8), AVG(Q9), AVG(Q10), \
                                            AVG(Q11), AVG(Q12), AVG(Q13), AVG(Q14), AVG(Q15), AVG(Q16), AVG(Q17), AVG(Q18), AVG(Q19), AVG(Q20), \
@@ -376,18 +378,34 @@ def manager_view_report():
                                          AVG(Q31), AVG(Q32), AVG(Q33), AVG(Q34), AVG(Q35), AVG(Q36), AVG(Q37), AVG(Q38), AVG(Q39), AVG(Q40) \
                                          FROM surveyanswers WHERE feedbacker_id= :feedbacker_id", feedbacker_id=session['user_id'])
 
-    number_of_feedbackers = len(employee_feedback_results)
-
-
-
-
     employee_feedback_results_dict = employee_feedback_results[0]
+
     self_assessment_results_dict = self_assessment_results[0]
+
+    # Store the overall score from employee feedback in the variable "overall_score_from_employee_feedback"
+    overall_score_from_employee_feedback = overall_score(employee_feedback_results_dict)
+
+    # Store the overall score from self-assessment in the variable "overall_score_from_self_assessment"
+    overall_score_from_self_assessment = overall_score(self_assessment_results_dict)
+
+    # Store the average store per question from employee feedback in the list "average_score_per_question"
+    average_score_per_question = []
+    for i in range (len(employee_feedback_results_dict)):
+        j = "AVG(Q" + str(i + 1) + ")"
+        average_score_per_question.append(employee_feedback_results_dict[j])
 
     WritetoCsv(employee_feedback_results_dict, 'static/data/employee_feedback.csv')
     WritetoCsv(self_assessment_results_dict, 'static/data/self_assessment.csv')
 
-    return render_template("manager_view_report.html")
+    return render_template("manager_view_report.html")#TODO
+
+def overall_score(dictionary):
+    total = 0
+    for i in range (len(dictionary)):
+        j = "AVG(Q" + str(i + 1) + ")"
+        total += dictionary[j]
+    return round(total/len(dictionary), 2)
+
 
 def WritetoCsv(dictionary, name_of_csvfile):
     category_lengths = [7, 10, 7, 7, 7, 2]
