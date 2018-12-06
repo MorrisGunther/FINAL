@@ -347,39 +347,38 @@ def manager_self_assessment():
 @login_required
 def manager_view_report():
 
+    # Ensure self assessment and at least one employee feedback have been submitted
     self_assessment = db.execute("SELECT * FROM surveyanswers WHERE feedbacker_id= :feedbacker_id", feedbacker_id=session['user_id'])
-
     employee_feedback = db.execute("SELECT * FROM surveyanswers WHERE feedbackee_id= :feedbackee_id AND feedbacker_id!= :feedbacker_id",
                                    feedbackee_id=session['user_id'], feedbacker_id=session['user_id'])
-
     if not self_assessment or not employee_feedback:
         return render_template("manager_report_not_available.html")
 
-
+    # Store the name of the logged-in manager in the variable "manager_name_"
     manager_name = db.execute("SELECT manager_name FROM users WHERE id=:id_", id_=session['user_id'])
     manager_name_ = manager_name[0]["manager_name"]
 
-    # Store the number of feedbackers in the variable "number_of_feedbackers_"
+    # Store the number of feedbackers (employees) of the logged-in manager in the variable "number_of_feedbackers_"
     number_of_feedbackers = db.execute("SELECT COUNT(feedbackee_id) num FROM surveyanswers \
                                        WHERE feedbackee_id= :feedbackee_id AND feedbacker_id!= :feedbacker_id",
                                        feedbackee_id=session['user_id'], feedbacker_id=session['user_id'])
     number_of_feedbackers_ = number_of_feedbackers[0]["num"]
 
+    # Query database for the average score per question from the employee feedback
     employee_feedback_results = db.execute("SELECT AVG(Q1), AVG(Q2), AVG(Q3), AVG(Q4), AVG(Q5), AVG(Q6), AVG(Q7), AVG(Q8), AVG(Q9), AVG(Q10), \
                                            AVG(Q11), AVG(Q12), AVG(Q13), AVG(Q14), AVG(Q15), AVG(Q16), AVG(Q17), AVG(Q18), AVG(Q19), AVG(Q20), \
                                            AVG(Q21), AVG(Q22), AVG(Q23), AVG(Q24), AVG(Q25), AVG(Q26), AVG(Q27), AVG(Q28), AVG(Q29), AVG(Q30), \
                                            AVG(Q31), AVG(Q32), AVG(Q33), AVG(Q34), AVG(Q35), AVG(Q36), AVG(Q37), AVG(Q38), AVG(Q39), AVG(Q40) \
                                            FROM surveyanswers WHERE feedbackee_id= :feedbackee_id AND feedbacker_id!= :feedbacker_id",
                                            feedbackee_id=session['user_id'], feedbacker_id=session['user_id'])
+    employee_feedback_results_dict = employee_feedback_results[0]
 
+    # Query database for the average score per question from the self-assessment
     self_assessment_results = db.execute("SELECT AVG(Q1), AVG(Q2), AVG(Q3), AVG(Q4), AVG(Q5), AVG(Q6), AVG(Q7), AVG(Q8), AVG(Q9), AVG(Q10), \
                                          AVG(Q11), AVG(Q12), AVG(Q13), AVG(Q14), AVG(Q15), AVG(Q16), AVG(Q17), AVG(Q18), AVG(Q19), AVG(Q20), \
                                          AVG(Q21), AVG(Q22), AVG(Q23), AVG(Q24), AVG(Q25), AVG(Q26), AVG(Q27), AVG(Q28), AVG(Q29), AVG(Q30), \
                                          AVG(Q31), AVG(Q32), AVG(Q33), AVG(Q34), AVG(Q35), AVG(Q36), AVG(Q37), AVG(Q38), AVG(Q39), AVG(Q40) \
                                          FROM surveyanswers WHERE feedbacker_id= :feedbacker_id", feedbacker_id=session['user_id'])
-
-    employee_feedback_results_dict = employee_feedback_results[0]
-
     self_assessment_results_dict = self_assessment_results[0]
 
     # Store the overall score from employee feedback in the variable "overall_score_from_employee_feedback"
@@ -394,12 +393,22 @@ def manager_view_report():
         j = "AVG(Q" + str(i + 1) + ")"
         average_score_per_question.append(employee_feedback_results_dict[j])
 
+    # Write the average score per category from the employee feedback to the csv-file "static/data/employee_feedback.csv"
     WritetoCsv(employee_feedback_results_dict, 'static/data/employee_feedback.csv')
+
+    # Write the average score per category from the self-assessment to the csv-file "static/data/self_assessment.csv"
     WritetoCsv(self_assessment_results_dict, 'static/data/self_assessment.csv')
 
-    return render_template("manager_view_report.html")#TODO
+    # Render manager view report form
+    return render_template("manager_view_report.html", manager_name_=manager_name_, number_of_feedbackers_=number_of_feedbackers_,
+                           overall_score_from_employee_feedback=overall_score_from_employee_feedback,
+                           overall_score_from_self_assessment=overall_score_from_self_assessment,
+                           average_score_per_question=average_score_per_question)
 
+
+# Return the average of the vales of a ditctionary (only dictionaries which have the same keys as employee_feedback_results_dict)
 def overall_score(dictionary):
+
     total = 0
     for i in range (len(dictionary)):
         j = "AVG(Q" + str(i + 1) + ")"
@@ -407,28 +416,46 @@ def overall_score(dictionary):
     return round(total/len(dictionary), 2)
 
 
+# This function bundles the 40 questions to 6 predefined categories, calculates the average score for each category and writes these average
+# Scores to a csv-file (in the format: categoryID, score)
 def WritetoCsv(dictionary, name_of_csvfile):
+
+    # Define the categories (i.e. first seven questions belong to category 1)
     category_lengths = [7, 10, 7, 7, 7, 2]
+
+    # Initialise a results list in which the average scores per category will be stored
     results = []
+
+    # Define the lower and upper boundary for the first category (i.e. the first categories includes questions 1 to 7 (including))
     lower_boundary = 1
     upper_boundary = category_lengths[0] + 1
-    # iterate over categories
+
+    # Iterate over categories
     for i in range(len(category_lengths)):
         total = 0
-        # iterate over questions
+
+        # Iterate over questions in category
         for j in range (lower_boundary, upper_boundary):
-            s = "AVG(Q" + str(j) + ")"
-            total += dictionary[s]
+            k = "AVG(Q" + str(j) + ")"
+            total += dictionary[k]
+
+        # Store the average score of a category in the variable "category_average"
         category_average = round(total/int(category_lengths[i]), 2)
+
+        # Append the average score for the category to the results list
         results.append(category_average)
+
+        # Update the lower and upper boundary for the next category (i.e. the second category includes questions 8 to 17 (including))
         if i < 5:
             lower_boundary = upper_boundary
             upper_boundary += int(category_lengths[i+1])
 
+    # Initialise a results_ list of dicts (each dict contains the categoryID as as well as the average score in the category)
     results_ = []
     for i in range(len(category_lengths)):
         results_.append({"categoryID": i + 1, "score": results[i]})
 
+    # Write from the results_ list of dicts to a csv-file
     csv_columns = ['categoryID','score']
     with open(name_of_csvfile, 'w') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=csv_columns)

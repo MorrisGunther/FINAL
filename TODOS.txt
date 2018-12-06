@@ -2,8 +2,9 @@
 2. Als richtige Website hochladen
 
 
-5. HTML erstellen für den Fall, dass noch kein Feedback gegeben wurde
-6. HTMLs anpassen
+5. HTML view report mergen
+6. view report kommentieren
+
 
 
 
