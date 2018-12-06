@@ -8,6 +8,7 @@ from functools import wraps
 def manager_apology(message, code=400):
     return render_template("manager_apology.html", message=message, code=code), code
 
+
 def employee_apology(message, code=400):
     return render_template("employee_apology.html", message=message, code=code), code
 

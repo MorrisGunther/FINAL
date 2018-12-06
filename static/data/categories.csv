@@ -1,7 +1,7 @@
 categoryID,category
-1,avgetasksresult
-2,avgemanagerresult
-3,avgevisionresult
-4,avgeteamresult
-5,avgeinnovationresult
-6,avgehappinnessresult
+1,Tasks
+2,Manager
+3,Vision
+4,Team
+5,Innovation
+6,Happiness

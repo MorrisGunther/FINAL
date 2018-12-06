@@ -199,8 +199,8 @@ def manager_request_feedback():
         if not result:
             return manager_apology("A request has already been sent to this email address")
 
-        # Store the content of the email (i.e. login credentials) which will be sent to the requested employee in the variables part1, part2
-        # And part3
+        # Store the content of the email (i.e. login credentials and link to the website) which will be sent to the requested employee
+        # In the variables part1, part2 and part3
         a = "Dear Sir or Madam, \n\n this is a request to provide feedback for Mr/Mrs "
         b = db.execute("SELECT manager_name FROM users WHERE id=:id_", id_=session['user_id'])
         b_ = b[0]["manager_name"]
@@ -209,11 +209,10 @@ def manager_request_feedback():
         e = "\n Password: "
         f = random_password_for_requested_employee
         g = "\n\n"
-
         part1__ = [a, b_, c, d, e, f, g]
         part1_ = "".join(part1__)
         part1 = MIMEText(part1_, 'plain')
-        part2 = MIMEText(u'<a href="http://ide50-morrisgunther.cs50.io:8080/">XXXwww.anmoleadership.com</a>','html')
+        part2 = MIMEText(u'<a href="http://ide50-morrisgunther.cs50.io:8080/">www.anmoleadership.com</a>', 'html')
         part3_ = "\n\n Sincerely, \n Your ANMO Team"
         part3 = MIMEText(part3_, 'plain')
 
@@ -348,7 +347,8 @@ def manager_self_assessment():
 def manager_view_report():
 
     # Ensure self assessment and at least one employee feedback have been submitted
-    self_assessment = db.execute("SELECT * FROM surveyanswers WHERE feedbacker_id= :feedbacker_id", feedbacker_id=session['user_id'])
+    self_assessment = db.execute("SELECT * FROM surveyanswers WHERE feedbacker_id= :feedbacker_id",
+                                 feedbacker_id=session['user_id'])
     employee_feedback = db.execute("SELECT * FROM surveyanswers WHERE feedbackee_id= :feedbackee_id AND feedbacker_id!= :feedbacker_id",
                                    feedbackee_id=session['user_id'], feedbacker_id=session['user_id'])
     if not self_assessment or not employee_feedback:
@@ -387,9 +387,9 @@ def manager_view_report():
     # Store the overall score from self-assessment in the variable "overall_score_from_self_assessment"
     overall_score_from_self_assessment = overall_score(self_assessment_results_dict)
 
-    # Store the average store per question from employee feedback in the list "average_score_per_question"
+    # Store the average score per question from employee feedback in the list "average_score_per_question"
     average_score_per_question = []
-    for i in range (len(employee_feedback_results_dict)):
+    for i in range(len(employee_feedback_results_dict)):
         j = "AVG(Q" + str(i + 1) + ")"
         average_score_per_question.append(employee_feedback_results_dict[j])
 
@@ -410,7 +410,7 @@ def manager_view_report():
 def overall_score(dictionary):
 
     total = 0
-    for i in range (len(dictionary)):
+    for i in range(len(dictionary)):
         j = "AVG(Q" + str(i + 1) + ")"
         total += dictionary[j]
     return round(total/len(dictionary), 2)
@@ -435,7 +435,7 @@ def WritetoCsv(dictionary, name_of_csvfile):
         total = 0
 
         # Iterate over questions in category
-        for j in range (lower_boundary, upper_boundary):
+        for j in range(lower_boundary, upper_boundary):
             k = "AVG(Q" + str(j) + ")"
             total += dictionary[k]
 
@@ -456,7 +456,7 @@ def WritetoCsv(dictionary, name_of_csvfile):
         results_.append({"categoryID": i + 1, "score": results[i]})
 
     # Write from the results_ list of dicts to a csv-file
-    csv_columns = ['categoryID','score']
+    csv_columns = ['categoryID', 'score']
     with open(name_of_csvfile, 'w') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
         writer.writeheader()
@@ -522,7 +522,8 @@ def employee_provide_feedback():
         if not feedbacker_id_:
 
             # Query the database for the name of the manager to be assessed and store it in the variable "manager_name_"
-            id_of_manager_to_be_assessed = db.execute("SELECT id_of_manager_to_be_assessed FROM users WHERE id=:id_", id_=session['user_id'])
+            id_of_manager_to_be_assessed = db.execute(
+                "SELECT id_of_manager_to_be_assessed FROM users WHERE id=:id_", id_=session['user_id'])
             id_of_manager_to_be_assessed_ = id_of_manager_to_be_assessed[0]["id_of_manager_to_be_assessed"]
             manager_name = db.execute("SELECT manager_name FROM users WHERE id=:id_of_manager_to_be_assessed_",
                                       id_of_manager_to_be_assessed_=id_of_manager_to_be_assessed_)

@@ -70,7 +70,7 @@ function createVis(parentElement, scoreData, categoryMap) {
         .attr("y", 0)
         .attr("x", 9)
         .attr("dy", ".35em")
-        .attr("transform", "rotate(75)") // allows us to rotate the text
+        .attr("transform", "rotate(45)") // allows us to rotate the text
         .style("text-anchor", "start");;
 
     // Draw the bars

@@ -1,16 +1,8 @@
-1. Data Visualization in View report
-2. Als richtige Website hochladen
+1. HTML view report mergen
+2. HTMLs mit validator überprüfen
+3. Alles aus Database löschen
+4. Video
 
-
-5. HTML view report mergen
-6. view report kommentieren
-
-
-
-
-Am Ende:
-1. Style-check
-2. Die URL und den Namen des Links in der Email noch ändern, je nach dem, was unsere URL am Ende ist
 
 
 
