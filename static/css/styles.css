@@ -79,3 +79,7 @@ table {
 svg {
     background-color: white;
 }
+
+#note {
+    font-size: small;
+}

@@ -11,12 +11,13 @@
 
 	<h3 class="mb-3">Feedback for {{ manager_name_ }}</h3>
 
-    <h6 class="mb-3">(You received feedback from {{  number_of_feedbackers_ }} employees)</h3>
+    <h6 class="mb-3">(You received feedback from {{  number_of_feedbackers_ }} employee/-s))</h3>
 
 
     <div class="blocktext" style="background-color:#f0f0f5;color:#006699;padding:20px;">
         This report summarizes the feedback concerning your leadership style that your chosen feedback givers have
-        provided and compares it to your self-assessment. All scores are out of a total of 5.
+        provided and compares it to your self-assessment. All scores are out of a total of five. Five is always the best score
+        (for inverse questions a five corresponds to "fully disagree").
         Please look at your results and identify your strengths and weaknesses and how these match with your expectations.
         Reflect upon possible reasons for instances where your results do not match your expectations. Based on these
         set yourself three goals concerning your leadership style that you would like to change.
@@ -87,7 +88,7 @@
                         <p>4 Sometimes I am bored in my job.</p>
                     </td>
                     <td>
-                        {{ average_score_per_question[3] }}
+                        {{ average_score_per_question[3] }} *
                     </td>
                 </tr>
                 <tr>
@@ -95,12 +96,12 @@
                         <p>5 I often do the same work over and over again.</p>
                     </td>
                     <td>
-                        {{ average_score_per_question[4] }}
+                        {{ average_score_per_question[4] }} *
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <p>6 I can flexibly decide when to do wich task.</p>
+                        <p>6 I can flexibly decide when to do which task.</p>
                     </td>
                     <td>
                         {{ average_score_per_question[5] }}
@@ -119,7 +120,7 @@
                         <p>8 My manager tells me what to do and I don't suggest tasks.</p>
                     </td>
                     <td>
-                        {{ average_score_per_question[7] }}
+                        {{ average_score_per_question[7] }} *
                     </td>
                 </tr>
                 <tr>
@@ -143,7 +144,7 @@
                         <p>11 I always try not to dissapoint my manager.</p>
                     </td>
                     <td>
-                        {{ average_score_per_question[10] }}
+                        {{ average_score_per_question[10] }} *
                     </td>
                 </tr>
                 <tr>
@@ -183,7 +184,7 @@
                         <p>16 I sometimes can't fulfill the expectations of my manager.</p>
                     </td>
                     <td>
-                        {{ average_score_per_question[15] }}
+                        {{ average_score_per_question[15] }} *
                     </td>
                 </tr>
                 <tr>
@@ -191,7 +192,7 @@
                         <p>17 I feel very controlled in my job.</p>
                     </td>
                     <td>
-                        {{ average_score_per_question[16] }}
+                        {{ average_score_per_question[16] }} *
                     </td>
                 </tr>
                 <tr>
@@ -204,7 +205,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <p>19 I can identify witht he mission of the company.</p>
+                        <p>19 I can identify with the mission of the company.</p>
                     </td>
                     <td>
                         {{ average_score_per_question[18] }}
@@ -239,7 +240,7 @@
                         <p>23 Sometimes it is difficult for me to get my ideas heard.</p>
                     </td>
                     <td>
-                        {{ average_score_per_question[22] }}
+                        {{ average_score_per_question[22] }} *
                     </td>
                 </tr>
                 <tr>
@@ -295,7 +296,7 @@
                         <p>30 I sometimes feel like I can't contribute well to the team/task.</p>
                     </td>
                     <td>
-                        {{ average_score_per_question[29] }}
+                        {{ average_score_per_question[29] }} *
                     </td>
                 </tr>
                 <tr>
@@ -327,7 +328,7 @@
                         <p>34 Our team vision is to provide the best solution out there.</p>
                     </td>
                     <td>
-                        {{ average_score_per_question[33] }}
+                        {{ average_score_per_question[33] }} *
                     </td>
                 </tr>
                 <tr>
@@ -340,7 +341,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <p>36 How much has changed in your comany in the past year?</p>
+                        <p>36 A lot has changed in the comany in the past year.</p>
                     </td>
                     <td>
                         {{ average_score_per_question[35] }}
@@ -348,7 +349,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <p>37 I slower pace of change would be good for the company.</p>
+                        <p>37 A slower pace of change would be good for the company.</p>
                     </td>
                     <td>
                         {{ average_score_per_question[36] }}
@@ -367,7 +368,7 @@
                         <p>39 I am thinking of changing jobs.</p>
                     </td>
                     <td>
-                        {{ average_score_per_question[38] }}
+                        {{ average_score_per_question[38] }} *
                     </td>
                 </tr>
                 <tr>
@@ -380,6 +381,9 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+    <div id="note">
+        * Inverse question, meaning that a score of five corresponds to "fully disagree"
     </div>
 
 	<!-- Load JS libraries: jQuery, bootstrap, D3 -->
