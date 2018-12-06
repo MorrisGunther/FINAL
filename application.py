@@ -391,7 +391,7 @@ def manager_view_report():
     average_score_per_question = []
     for i in range(len(employee_feedback_results_dict)):
         j = "AVG(Q" + str(i + 1) + ")"
-        average_score_per_question.append(employee_feedback_results_dict[j])
+        average_score_per_question.append(round(employee_feedback_results_dict[j], 2))
 
     # Write the average score per category from the employee feedback to the csv-file "static/data/employee_feedback.csv"
     WritetoCsv(employee_feedback_results_dict, 'static/data/employee_feedback.csv')
